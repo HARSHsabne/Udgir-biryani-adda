@@ -114,6 +114,8 @@ function captureLocation() {
         const lon = position.coords.longitude;
         liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
         alert('Live location captured! You do not need to enter address manually.');
+        document.getElementById('address').value = '';
+        document.getElementById('address').disabled = true; // Disable address input
       },
       (error) => {
         alert('Could not get location. Please enable location services.');
@@ -123,11 +125,15 @@ function captureLocation() {
     alert('Geolocation is not supported by your browser.');
   }
 }
+
   document.getElementById('orderForm').addEventListener('submit', function(e) {
     e.preventDefault();
     if(orderItems.length === 0){
       alert('Please add at least one item to your order!');
       return;
+      document.getElementById('address').disabled = false; // Re-enable address field
+  this.reset();
+});
     }
 
     const customerName = document.getElementById('name').value;
