@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>City Biryani Delivery</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fff8f0; margin: 0; padding: 0; }
+    header { background-color: #d32f2f; color: white; text-align: center; padding: 20px 0; font-size: 24px; font-weight: bold; }
+    .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
+    .dish { background-color: #fff3e0; border-radius: 10px; margin: 10px; padding: 15px; width: 200px; text-align: center; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+    .dish img { width: 100%; border-radius: 10px; }
+    .dish h3 { margin: 10px 0 5px 0; }
+    .dish p { margin: 5px 0; }
+    .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+    .dish button:hover { background-color: #b71c1c; }
+    .order-form { max-width: 400px; margin: 20px auto; background-color: #ffe0b2; padding: 20px; border-radius: 10px; }
+    .order-form h2 { text-align: center; }
+    .order-form label { display: block; margin: 10px 0 5px 0; }
+    .order-form input, .order-form textarea { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+    .order-form button { margin-top: 15px; width: 100%; background-color: #d32f2f; color: white; border: none; padding: 10px; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    .order-form button:hover { background-color: #b71c1c; }
+    .confirmation { text-align: center; color: green; font-weight: bold; margin: 20px 0; display: none; }
+  </style>
+</head>
+<body>
+
+<header>City Biryani Delivery</header>
+
+<div class="menu">
+  <div class="dish">
+    <img src="https://i.imgur.com/6q1Qd4Y.jpg" alt="Chicken Biryani">
+    <h3>Chicken Biryani</h3>
+    <p>₹349</p>
+    <button onclick="addToOrder('Chicken Biryani', 349)">Add to Order</button>
+  </div>
+  <div class="dish">
+    <img src="https://i.imgur.com/eh2R6dN.jpg" alt="Veg Biryani">
+    <h3>Veg Biryani</h3>
+    <p>₹249</p>
+    <button onclick="addToOrder('Veg Biryani', 249)">Add to Order</button>
+  </div>
+</div>
+
+<div class="order-form">
+  <h2>Place Your Order</h2>
+  <form id="orderForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" required>
+
+    <label for="address">Delivery Address:</label>
+    <textarea id="address" rows="3" required></textarea>
+
+    <label for="orderSummary">Your Order:</label>
+    <textarea id="orderSummary" rows="4" readonly></textarea>
+
+    <button type="submit">Send Order via WhatsApp</button>
+  </form>
+</div>
+
+<div class="confirmation" id="confirmation">
+  Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
+</div>
+
+<script>
+  let orderItems = [];
+  let totalPrice = 0;
+  const yourWhatsAppNumber = "919421229507"; // Replace with your WhatsApp number (with country code, no +)
+
+  function addToOrder(name, price) {
+    orderItems.push({name, price});
+    totalPrice += price;
+    updateOrderSummary();
+  }
+
+  function updateOrderSummary() {
+    const orderSummary = document.getElementById('orderSummary');
+    let summary = '';
+    orderItems.forEach((item, index) => {
+      summary += `${index+1}. ${item.name} - ₹${item.price}\n`;
+    });
+    summary += `\nTotal: ₹${totalPrice}`;
+    orderSummary.value = summary;
+  }
+
+  document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if(orderItems.length === 0){
+      alert('Please add at least one item to your order!');
+      return;
+    }
+
+    const name = encodeURIComponent(document.getElementById('name').value);
+    const phone = encodeURIComponent(document.getElementById('phone').value);
+    const address = encodeURIComponent(document.getElementById('address').value);
+
+    let message = `New Biryani Order:\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\nOrder:\n`;
+    orderItems.forEach((item, index) => {
+      message += `${index+1}. ${item.name} - ₹${item.price}\n`;
+    });
+    message += `Total: ₹${totalPrice}`;
+
+    // Open WhatsApp chat
+    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${message}`, '_blank');
+
+    document.getElementById('confirmation').style.display = 'block';
+    orderItems = [];
+    totalPrice = 0;
+    updateOrderSummary();
+    this.reset();
+  });
+</script>
+
+</body>
+</html>
