@@ -32,13 +32,13 @@
     <img src="biryani.jpg" alt="Chicken Biryani">
     <h3>Chicken Biryani</h3>
     <p>₹149</p>
-    <button onclick="addToOrder('Chicken Biryani', 349)">Add to Order</button>
+    <button onclick="addToOrder('Chicken Biryani', 149)">Add to Order</button>
   </div>
-  <div class="drink">
-    <img src="cold drink.jpg" alt="cold drink">
-    <h3>cold drink</h3>
-    <p>₹1</p>
-    <button onclick="addToOrder('Cold drink', 1)">Add to Order</button>
+  <div class="dish">
+    <img src="cold-drink.jpg" alt="Cold Drink">
+    <h3>Cold Drink</h3>
+    <p>₹1 (with Biryani)</p>
+    <button onclick="addToOrder('Cold Drink', 1)">Add to Order</button>
   </div>
 </div>
 
@@ -62,15 +62,29 @@
 </div>
 
 <div class="confirmation" id="confirmation">
-  Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
+  ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
 </div>
 
 <script>
   let orderItems = [];
   let totalPrice = 0;
-  const yourWhatsAppNumber = "919421229507"; // Replace with your WhatsApp number (with country code, no +)
+  const yourWhatsAppNumber = "919421229507"; // Replace with your WhatsApp number
 
   function addToOrder(name, price) {
+    if (name === "Cold Drink") {
+      const biryaniCount = orderItems.filter(item => item.name.includes("Biryani")).length;
+      const coldDrinkCount = orderItems.filter(item => item.name === "Cold Drink").length;
+
+      if (biryaniCount === 0) {
+        alert("Cold drink is available only with Biryani!");
+        return;
+      }
+      if (coldDrinkCount >= biryaniCount) {
+        alert("You can only add 1 Cold Drink per Biryani.");
+        return;
+      }
+    }
+
     orderItems.push({name, price});
     totalPrice += price;
     updateOrderSummary();
@@ -97,11 +111,11 @@
     const phone = encodeURIComponent(document.getElementById('phone').value);
     const address = encodeURIComponent(document.getElementById('address').value);
 
-    let message = `New Biryani Order:\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\nOrder:\n`;
+    let message = `🛒 New Biryani Order:\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nOrder:\n`;
     orderItems.forEach((item, index) => {
       message += `${index+1}. ${item.name} - ₹${item.price}\n`;
     });
-    message += `Total: ₹${totalPrice}`;
+    message += `\nTotal: ₹${totalPrice}`;
 
     // Open WhatsApp chat
     window.open(`https://wa.me/${yourWhatsAppNumber}?text=${message}`, '_blank');
