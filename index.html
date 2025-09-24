@@ -72,6 +72,7 @@
 <script>
   let orderItems = [];
   let totalPrice = 0;
+  let liveLocationLink = '';
   const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
   function addToOrder(name, price) {
@@ -103,7 +104,24 @@
     summary += `\nTotal: ₹${totalPrice}`;
     orderSummary.value = summary;
   }
-
+// Capture live location
+function captureLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
+        alert('Live location captured! You do not need to enter address manually.');
+      },
+      (error) => {
+        alert('Could not get location. Please enable location services.');
+      }
+    );
+  } else {
+    alert('Geolocation is not supported by your browser.');
+  }
+}
   document.getElementById('orderForm').addEventListener('submit', function(e) {
     e.preventDefault();
     if(orderItems.length === 0){
@@ -114,9 +132,10 @@
     const customerName = document.getElementById('name').value;
     const customerPhone = document.getElementById('phone').value;
     const customerAddress = document.getElementById('address').value;
+    const finalAddress = liveLocationLink !== '' ? liveLocationLink : customerAddress;
 
     // Send order to your WhatsApp
-    let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}\n\nOrder:\n`;
+    let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
     orderItems.forEach((item, index) => {
       yourMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
     });
@@ -137,6 +156,7 @@
     document.getElementById('confirmation').style.display = 'block';
     orderItems = [];
     totalPrice = 0;
+    liveLocationLink = '';
     updateOrderSummary();
     this.reset();
   });
