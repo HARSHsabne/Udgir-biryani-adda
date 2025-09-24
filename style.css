@@ -11,7 +11,7 @@ header {
 }
 
 header .logo {
-  height: 50px;      /* Adjust size as needed */
+  height: 70px;      /* Adjust size as needed */
   width: auto;
   margin-right: 10px;
   border-radius: 5px; /* optional */
