@@ -16,3 +16,19 @@ header .logo {
   margin-right: 10px;
   border-radius: 5px; /* optional */
 }
+.location-btn {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  transition: background-color 0.3s, transform 0.2s;
+}
+.location-btn:hover {
+  background-color: #e64a19;
+  transform: scale(1.05);
+}
