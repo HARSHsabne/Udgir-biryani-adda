@@ -72,7 +72,7 @@
 <script>
   let orderItems = [];
   let totalPrice = 0;
-  const yourWhatsAppNumber = "919421229507"; // Replace with your WhatsApp number
+  const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
   function addToOrder(name, price) {
     if (name === "Cold Drink") {
@@ -111,18 +111,28 @@
       return;
     }
 
-    const name = encodeURIComponent(document.getElementById('name').value);
-    const phone = encodeURIComponent(document.getElementById('phone').value);
-    const address = encodeURIComponent(document.getElementById('address').value);
+    const customerName = document.getElementById('name').value;
+    const customerPhone = document.getElementById('phone').value;
+    const customerAddress = document.getElementById('address').value;
 
-    let message = `🛒 New Biryani Order:\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nOrder:\n`;
+    // Send order to your WhatsApp
+    let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}\n\nOrder:\n`;
     orderItems.forEach((item, index) => {
-      message += `${index+1}. ${item.name} - ₹${item.price}\n`;
+      yourMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
     });
-    message += `\nTotal: ₹${totalPrice}`;
+    yourMessage += `\nTotal: ₹${totalPrice}`;
+    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`, '_blank');
 
-    // Open WhatsApp chat
-    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${message}`, '_blank');
+    // Send confirmation message to customer
+    let confirmationMessage = `✅ Hello ${customerName}, your order has been received!\n\nOrder Details:\n`;
+    orderItems.forEach((item, index) => {
+      confirmationMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
+    });
+    confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
+
+    // Open WhatsApp to send confirmation to customer
+    const customerWhatsAppNumber = customerPhone.replace(/[^0-9]/g,''); // Remove any non-numeric characters
+    window.open(`https://wa.me/91${customerWhatsAppNumber}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
 
     document.getElementById('confirmation').style.display = 'block';
     orderItems = [];
@@ -131,6 +141,7 @@
     this.reset();
   });
 </script>
+
 
 </body>
 </html>
