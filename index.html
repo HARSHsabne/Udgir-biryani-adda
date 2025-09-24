@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Udgir Biryani Adda</title>
@@ -16,18 +15,38 @@
     .dish p { margin: 5px 0; }
     .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
     .dish button:hover { background-color: #b71c1c; }
+
     .order-form { max-width: 400px; margin: 20px auto; background-color: #ffe0b2; padding: 20px; border-radius: 10px; }
     .order-form h2 { text-align: center; }
     .order-form label { display: block; margin: 10px 0 5px 0; }
     .order-form input, .order-form textarea { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
     .order-form button { margin-top: 15px; width: 100%; background-color: #d32f2f; color: white; border: none; padding: 10px; border-radius: 5px; font-size: 16px; cursor: pointer; }
     .order-form button:hover { background-color: #b71c1c; }
+
+    .location-btn {
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .location-btn:hover {
+      background-color: #e64a19;
+      transform: scale(1.05);
+    }
+
     .confirmation { text-align: center; color: green; font-weight: bold; margin: 20px 0; display: none; }
   </style>
 </head>
 <body>
 
-<header> <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
+<header>
+  <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
   Udgir Biryani Adda
 </header>
 
@@ -71,41 +90,41 @@
 </div>
 
 <script>
-  let orderItems = [];
-  let totalPrice = 0;
-  let liveLocationLink = '';
-  const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
+let orderItems = [];
+let totalPrice = 0;
+let liveLocationLink = '';
+const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
-  function addToOrder(name, price) {
-    if (name === "Cold Drink") {
-      const biryaniCount = orderItems.filter(item => item.name.includes("Biryani")).length;
-      const coldDrinkCount = orderItems.filter(item => item.name === "Cold Drink").length;
+function addToOrder(name, price) {
+  if (name === "Cold Drink") {
+    const biryaniCount = orderItems.filter(item => item.name.includes("Biryani")).length;
+    const coldDrinkCount = orderItems.filter(item => item.name === "Cold Drink").length;
 
-      if (biryaniCount === 0) {
-        alert("Cold drink is available only with Biryani!");
-        return;
-      }
-      if (coldDrinkCount >= biryaniCount) {
-        alert("You can only add 1 Cold Drink per Biryani.");
-        return;
-      }
+    if (biryaniCount === 0) {
+      alert("Cold drink is available only with Biryani!");
+      return;
     }
-
-    orderItems.push({name, price});
-    totalPrice += price;
-    updateOrderSummary();
+    if (coldDrinkCount >= biryaniCount) {
+      alert("You can only add 1 Cold Drink per Biryani.");
+      return;
+    }
   }
 
-  function updateOrderSummary() {
-    const orderSummary = document.getElementById('orderSummary');
-    let summary = '';
-    orderItems.forEach((item, index) => {
-      summary += `${index+1}. ${item.name} - ₹${item.price}\n`;
-    });
-    summary += `\nTotal: ₹${totalPrice}`;
-    orderSummary.value = summary;
-  }
-// Capture live location
+  orderItems.push({name, price});
+  totalPrice += price;
+  updateOrderSummary();
+}
+
+function updateOrderSummary() {
+  const orderSummary = document.getElementById('orderSummary');
+  let summary = '';
+  orderItems.forEach((item, index) => {
+    summary += `${index+1}. ${item.name} - ₹${item.price}\n`;
+  });
+  summary += `\nTotal: ₹${totalPrice}`;
+  orderSummary.value = summary;
+}
+
 function captureLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -114,10 +133,11 @@ function captureLocation() {
         const lon = position.coords.longitude;
         liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
         alert('Live location captured! You do not need to enter address manually.');
-        document.getElementById('address').value = '';
-        document.getElementById('address').disabled = true; // Disable address input
+        const addressField = document.getElementById('address');
+        addressField.value = '';
+        addressField.disabled = true;
       },
-      (error) => {
+      () => {
         alert('Could not get location. Please enable location services.');
       }
     );
@@ -126,46 +146,45 @@ function captureLocation() {
   }
 }
 
-  document.getElementById('orderForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    if(orderItems.length === 0){
-      alert('Please add at least one item to your order!');
-      return;
-    }
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if(orderItems.length === 0){
+    alert('Please add at least one item to your order!');
+    return;
+  }
 
-    const customerName = document.getElementById('name').value;
-    const customerPhone = document.getElementById('phone').value;
-    const customerAddress = document.getElementById('address').value;
-    const finalAddress = liveLocationLink !== '' ? liveLocationLink : customerAddress;
+  const customerName = document.getElementById('name').value;
+  const customerPhone = document.getElementById('phone').value;
+  const customerAddress = document.getElementById('address').value;
+  const finalAddress = liveLocationLink !== '' ? liveLocationLink : customerAddress;
 
-    // Send order to your WhatsApp
-    let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
-    orderItems.forEach((item, index) => {
-      yourMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
-    });
-    yourMessage += `\nTotal: ₹${totalPrice}`;
-    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`, '_blank');
-
-    // Send confirmation message to customer
-    let confirmationMessage = `✅ Hello ${customerName}, your order has been received!\n\nOrder Details:\n`;
-    orderItems.forEach((item, index) => {
-      confirmationMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
-    });
-    confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
-
-    // Open WhatsApp to send confirmation to customer
-    const customerWhatsAppNumber = customerPhone.replace(/[^0-9]/g,''); // Remove any non-numeric characters
-    window.open(`https://wa.me/91${customerWhatsAppNumber}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
-
-    document.getElementById('confirmation').style.display = 'block';
-    orderItems = [];
-    totalPrice = 0;
-    liveLocationLink = '';
-    updateOrderSummary();
-    this.reset();
+  // Send order to your WhatsApp
+  let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
+  orderItems.forEach((item, index) => {
+    yourMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
   });
-</script>
+  yourMessage += `\nTotal: ₹${totalPrice}`;
+  window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`, '_blank');
 
+  // Send confirmation message to customer
+  let confirmationMessage = `✅ Hello ${customerName}, your order has been received!\n\nOrder Details:\n`;
+  orderItems.forEach((item, index) => {
+    confirmationMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
+  });
+  confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
+
+  const customerWhatsAppNumber = customerPhone.replace(/[^0-9]/g,'');
+  window.open(`https://wa.me/91${customerWhatsAppNumber}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
+
+  document.getElementById('confirmation').style.display = 'block';
+  orderItems = [];
+  totalPrice = 0;
+  liveLocationLink = '';
+  document.getElementById('address').disabled = false;
+  updateOrderSummary();
+  this.reset();
+});
+</script>
 
 </body>
 </html>
