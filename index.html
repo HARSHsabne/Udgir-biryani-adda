@@ -105,6 +105,7 @@ let liveLocationLink = '';
 const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
+  // Cold Drink checks
   if (name === "Cold Drink") {
     const biryaniCount = orderItems
       .filter(item => item.name.includes("Biryani"))
@@ -115,11 +116,11 @@ function addToOrder(name, price) {
       .reduce((sum, item) => sum + item.quantity, 0);
 
     if (biryaniCount === 0) {
-      alert("Cold drink is available only with Biryani!");
+      showPopup("Cold drink is available only with Biryani!", "error");
       return;
     }
     if (coldDrinkCount >= biryaniCount) {
-      alert("You can only add 1 Cold Drink per Biryani.");
+      showPopup("You can only add 1 Cold Drink per Biryani.", "error");
       return;
     }
   }
@@ -134,9 +135,16 @@ function addToOrder(name, price) {
 
   totalPrice += price;
   updateOrderSummary();
-  function showPopup(message) {
+
+  const item = orderItems.find(i => i.name === name);
+  showPopup(`${item.quantity} ${item.name} added`, "success");
+}
+
+// Updated showPopup to handle success/error colors
+function showPopup(message, type = "success") {
   const popup = document.getElementById('popupMessage');
   popup.innerText = message;
+  popup.style.background = type === "success" ? "#4CAF50" : "#f44336"; // green or red
 
   // show with animation
   popup.style.opacity = "1";
@@ -149,7 +157,7 @@ function addToOrder(name, price) {
   }, 2000);
 }
 
-}
+
 
 function updateOrderSummary() {
   const orderSummary = document.getElementById('orderSummary');
