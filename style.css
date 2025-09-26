@@ -32,25 +32,3 @@ header .logo {
   background-color: #e64a19;
   transform: scale(1.05);
 }
-.menu {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-.menu-item {
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 10px;
-  width: 150px;
-  background: #f8f8f8;
-  text-align: center;
-}
-
-/* Target only the last item (Cold Drink) */
-.menu-item:last-child {
-  flex-basis: 100%;      /* Take full row */
-  display: flex;
-  justify-content: center;
-}
