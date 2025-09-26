@@ -106,8 +106,13 @@ const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
   if (name === "Cold Drink") {
-    const biryaniCount = orderItems.filter(item => item.name.includes("Biryani")).length;
-    const coldDrinkCount = orderItems.filter(item => item.name === "Cold Drink").length;
+    const biryaniCount = orderItems
+      .filter(item => item.name.includes("Biryani"))
+      .reduce((sum, item) => sum + item.quantity, 0);
+
+    const coldDrinkCount = orderItems
+      .filter(item => item.name === "Cold Drink")
+      .reduce((sum, item) => sum + item.quantity, 0);
 
     if (biryaniCount === 0) {
       alert("Cold drink is available only with Biryani!");
@@ -119,7 +124,14 @@ function addToOrder(name, price) {
     }
   }
 
-  orderItems.push({name, price});
+  let existingItem = orderItems.find(item => item.name === name);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    orderItems.push({ name, price, quantity: 1 });
+  }
+
   totalPrice += price;
   updateOrderSummary();
 }
@@ -128,11 +140,12 @@ function updateOrderSummary() {
   const orderSummary = document.getElementById('orderSummary');
   let summary = '';
   orderItems.forEach((item, index) => {
-    summary += `${index+1}. ${item.name} - ₹${item.price}\n`;
+    summary += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
   });
   summary += `\nTotal: ₹${totalPrice}`;
   orderSummary.value = summary;
 }
+
 
 function captureLocation() {
   if (navigator.geolocation) {
