@@ -36,10 +36,9 @@ header .logo {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  justify-items: center;
   margin: 20px;
+  justify-items: center;
 }
-
 .dish {
   background-color: #fff3e0;
   border-radius: 10px;
@@ -48,8 +47,11 @@ header .logo {
   text-align: center;
   box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
 }
-
+.dish img {
+  width: 100%;
+  border-radius: 10px;
+}
 .cold-drink {
-  grid-column: span 2;   /* forces Cold Drink to take full row */
-  justify-self: center;  /* center it */
+  grid-column: 1 / span 2; /* take full row */
+  justify-self: center;    /* center inside row */
 }
