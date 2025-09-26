@@ -1,222 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#d32f2f">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Udgir Biryani Adda</title>
-
-  <!-- optional manifest if you use PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#d32f2f">
-
-  <!-- icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <!-- If you also use style.css, keep the link; inline style below overrides it -->
-  <link rel="stylesheet" href="style.css">
-
   <style>
-    /* ===== layout & menu grid (THIS IS THE IMPORTANT PART) ===== */
-    body { font-family: Arial, sans-serif; background: #fff8f0; margin:0; padding:0; }
-    header { background:#d32f2f; color:#fff; text-align:center; padding:18px 10px; font-size:22px; font-weight:700; }
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(2, 220px); /* two columns */
-      gap: 20px;
-      justify-content: center; /* center the grid as a whole */
-      align-items: start;
-      margin: 20px;
-    }
-    .dish {
-      background: #fff3e0;
-      border-radius: 10px;
-      padding: 12px;
-      width: 220px;             /* matches the grid column size */
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-    }
-    .dish img { width:100%; border-radius:8px; display:block; margin-bottom:10px; }
-    .dish h3 { margin:8px 0 6px; font-size:18px; }
-    .dish p { margin:4px 0 10px; color:#333; }
+    body { font-family: Arial, sans-serif; background: #fff8f0; margin: 0; padding: 0; }
+    header { background-color: #d32f2f; color: white; text-align: center; padding: 20px 0; font-size: 24px; font-weight: bold; }
+    .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
+    .dish { background-color: #fff3e0; border-radius: 10px; margin: 10px; padding: 15px; width: 200px; text-align: center; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+    .dish img { width: 100%; border-radius: 10px; }
+    .dish h3 { margin: 10px 0 5px 0; }
+    .dish p { margin: 5px 0; }
+    .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+    .dish button:hover { background-color: #b71c1c; }
 
-    /* make Cold Drink take the whole row and be centered */
-    .dish.cold-drink {
-      grid-column: 1 / -1;   /* span all columns (full row) */
-      justify-self: center;  /* center the element in that row */
-      width: 220px;          /* keep consistent width */
-    }
+    .order-form { max-width: 400px; margin: 20px auto; background-color: #ffe0b2; padding: 20px; border-radius: 10px; }
+    .order-form h2 { text-align: center; }
+    .order-form label { display: block; margin: 10px 0 5px 0; }
+    .order-form input, .order-form textarea { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+    .order-form button { margin-top: 15px; width: 100%; background-color: #d32f2f; color: white; border: none; padding: 10px; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    .order-form button:hover { background-color: #b71c1c; }
 
-    /* Responsive: single column on small screens */
-    @media (max-width: 480px) {
-      .menu { grid-template-columns: 1fr; gap:12px; padding:12px; }
-      .dish, .dish.cold-drink { width: 100%; }
-      .dish.cold-drink { grid-column: auto; justify-self: stretch; }
+    .location-btn {
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .location-btn:hover {
+      background-color: #e64a19;
+      transform: scale(1.05);
     }
 
-    /* form & buttons */
-    .order-form { max-width:420px; margin:20px auto; background:#ffe0b2; padding:18px; border-radius:10px; }
-    .order-form h2 { text-align:center; margin-top:0; }
-    .order-form label { display:block; margin:10px 0 6px; }
-    .order-form input, .order-form textarea { width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; box-sizing:border-box; }
-    .order-form button, .dish button {
-      background:#d32f2f; color:#fff; border:none; padding:10px 12px; border-radius:6px; cursor:pointer; font-size:15px;
-    }
-    .location-btn { background:#ff5722; width:100%; margin-top:10px; }
-    .order-form button:hover, .dish button:hover, .location-btn:hover { opacity:0.95; transform:translateY(-1px); }
-
-    .contact-section { text-align:center; margin:30px 0; }
-    .contact-section a { display:inline-block; margin:8px; font-size:22px; text-decoration:none; }
+    .confirmation { text-align: center; color: green; font-weight: bold; margin: 20px 0; display: none; }
   </style>
 </head>
 <body>
 
-  <header>
-    <img src="logo.png" alt="logo" style="height:36px; vertical-align:middle; margin-right:8px;">
-    Udgir Biryani Adda
-  </header>
+<header>
+  <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
+  Udgir Biryani Adda
+</header>
 
-  <!-- ===== MENU: 2 columns, cold drink centered on second row ===== -->
-  <div class="menu">
-    <!-- 1 -->
-    <div class="dish">
-      <img src="biryani.jpg" alt="Chicken Biryani">
-      <h3>Chicken Biryani</h3>
-      <p>₹149</p>
-      <button onclick="addToOrder('Chicken Biryani', 149)">Add to Order</button>
-    </div>
-
-    <!-- 2 -->
-    <div class="dish">
-      <img src="Mutton-Biryani.jpg" alt="Mutton Biryani">
-      <h3>Mutton Biryani</h3>
-      <p>₹249</p>
-      <button onclick="addToOrder('Mutton Biryani', 249)">Add to Order</button>
-    </div>
-
-    <!-- 3 (centered full row) -->
-    <div class="dish cold-drink">
-      <img src="cold_drink.jpg" alt="Cold Drink">
-      <h3>Cold Drink</h3>
-      <p>₹1 (with Biryani)</p>
-      <button onclick="addToOrder('Cold Drink', 1)">Add to Order</button>
-    </div>
+<div class="menu">
+  <div class="dish">
+    <img src="biryani.jpg" alt="Chicken Biryani">
+    <h3>Chicken Biryani</h3>
+    <p>₹149</p>
+    <button onclick="addToOrder('Chicken Biryani', 149)">Add to Order</button>
   </div>
-
-  <!-- ===== ORDER FORM ===== -->
-  <div class="order-form">
-    <h2>Place Your Order</h2>
-    <form id="orderForm">
-      <label for="name">Name:</label>
-      <input id="name" type="text" required>
-
-      <label for="phone">Phone Number:</label>
-      <input id="phone" type="tel" required>
-
-      <label for="address">Delivery Address:</label>
-      <textarea id="address" rows="3"></textarea>
-
-      <button type="button" class="location-btn" onclick="captureLocation()">📍 Use My Current Location</button>
-
-      <label for="orderSummary">Your Order:</label>
-      <textarea id="orderSummary" rows="4" readonly></textarea>
-
-      <button type="submit">Send Order via WhatsApp</button>
-    </form>
+  <div class="dish">
+    <img src="Mutton-Biryani.jpg" alt="Mutton Biryani">
+    <h3>Mutton Biryani</h3>
+    <p>₹249</p>
+    <button onclick="addToOrder('Mutton Biryani', 249)">Add to Order</button>
   </div>
-
-  <div id="confirmation" style="text-align:center; color:green; font-weight:700; display:none; margin-bottom:20px;">
-    ✅ Thank you! Your order has been sent to WhatsApp.
+  <div class="dish cold-drink">
+    <img src="cold_drink.jpg" alt="Cold Drink">
+    <h3>Cold Drink</h3>
+    <p>₹1 (with Biryani)</p>
+    <button onclick="addToOrder('Cold Drink', 1)">Add to Order</button>
   </div>
+</div>
+<div class="order-form">
+  <h2>Place Your Order</h2>
+  <form id="orderForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
 
-  <!-- contact icons -->
-  <div class="contact-section">
-    <h3>📲 Connect with Us</h3>
-    <a href="https://www.instagram.com/udgirbiryaniadda" target="_blank" style="color:#E4405F;"><i class="fab fa-instagram"></i></a>
-    <a href="mailto:udgirbiryaniadda@gmail.com" style="color:#D44638;"><i class="fas fa-envelope"></i></a>
-    <a href="https://wa.me/919421229507" target="_blank" style="color:#25D366;"><i class="fab fa-whatsapp"></i></a>
-  </div>
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" required>
 
-  <script>
-    // Order logic (same as your earlier logic)
-    let orderItems = [];
-    let totalPrice = 0;
-    let liveLocationLink = '';
-    const yourWhatsAppNumber = "919421229507";
+    <label for="address">Delivery Address:</label>
+    <textarea id="address" rows="3" required></textarea>
+    <button type="button" class="location-btn" onclick="captureLocation()">📍 Use My Current Location</button>
 
-    function addToOrder(name, price) {
-      if (name === "Cold Drink") {
-        const biryaniCount = orderItems.filter(i => i.name.includes("Biryani")).length;
-        const coldDrinkCount = orderItems.filter(i => i.name === "Cold Drink").length;
-        if (biryaniCount === 0) { alert("Cold drink is available only with Biryani!"); return; }
-        if (coldDrinkCount >= biryaniCount) { alert("You can only add 1 Cold Drink per Biryani."); return; }
-      }
-      orderItems.push({name, price});
-      totalPrice += price;
-      updateOrderSummary();
+    <label for="orderSummary">Your Order:</label>
+    <textarea id="orderSummary" rows="4" readonly></textarea>
+
+    <button type="submit">Send Order via WhatsApp</button>
+  </form>
+</div>
+
+<div class="confirmation" id="confirmation">
+  ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
+</div>
+
+<script>
+let orderItems = [];
+let totalPrice = 0;
+let liveLocationLink = '';
+const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
+
+function addToOrder(name, price) {
+  if (name === "Cold Drink") {
+    const biryaniCount = orderItems.filter(item => item.name.includes("Biryani")).length;
+    const coldDrinkCount = orderItems.filter(item => item.name === "Cold Drink").length;
+
+    if (biryaniCount === 0) {
+      alert("Cold drink is available only with Biryani!");
+      return;
     }
-
-    function updateOrderSummary() {
-      const orderSummary = document.getElementById('orderSummary');
-      let summary = '';
-      orderItems.forEach((item, idx) => summary += `${idx+1}. ${item.name} - ₹${item.price}\n`);
-      summary += `\nTotal: ₹${totalPrice}`;
-      orderSummary.value = summary;
+    if (coldDrinkCount >= biryaniCount) {
+      alert("You can only add 1 Cold Drink per Biryani.");
+      return;
     }
+  }
 
-    function captureLocation() {
-      if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
-      navigator.geolocation.getCurrentPosition((pos) => {
-        const lat = pos.coords.latitude, lon = pos.coords.longitude;
+  orderItems.push({name, price});
+  totalPrice += price;
+  updateOrderSummary();
+}
+
+function updateOrderSummary() {
+  const orderSummary = document.getElementById('orderSummary');
+  let summary = '';
+  orderItems.forEach((item, index) => {
+    summary += `${index+1}. ${item.name} - ₹${item.price}\n`;
+  });
+  summary += `\nTotal: ₹${totalPrice}`;
+  orderSummary.value = summary;
+}
+
+function captureLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
         liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
         alert('Live location captured! You do not need to enter address manually.');
         const addressField = document.getElementById('address');
         addressField.value = '';
         addressField.disabled = true;
-      }, () => { alert('Could not get location. Enable location services.'); });
-    }
-
-    document.getElementById('orderForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      if (orderItems.length === 0) { alert('Please add at least one item to your order!'); return; }
-
-      const customerName = document.getElementById('name').value.trim();
-      const customerPhone = document.getElementById('phone').value.trim();
-      const customerAddress = document.getElementById('address').value.trim();
-      const finalAddress = liveLocationLink !== '' ? liveLocationLink : customerAddress;
-
-      // message to you (owner)
-      let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
-      orderItems.forEach((it, idx) => yourMessage += `${idx+1}. ${it.name} - ₹${it.price}\n`);
-      yourMessage += `\nTotal: ₹${totalPrice}`;
-
-      window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`, '_blank');
-
-      // confirmation for customer (opens chat ready-to-send)
-      let confirmationMessage = `✅ Hello ${customerName}, your order has been received!\n\nOrder Details:\n`;
-      orderItems.forEach((it, idx) => confirmationMessage += `${idx+1}. ${it.name} - ₹${it.price}\n`);
-      confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
-
-      const cleaned = customerPhone.replace(/[^0-9]/g,'');
-      if (cleaned.length >= 6) { // basic validation
-        window.open(`https://wa.me/91${cleaned}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
-      } else {
-        alert('Customer phone looks invalid. Skipping customer confirmation.');
+      },
+      () => {
+        alert('Could not get location. Please enable location services.');
       }
+    );
+  } else {
+    alert('Geolocation is not supported by your browser.');
+  }
+}
 
-      // show on-page confirmation & reset
-      document.getElementById('confirmation').style.display = 'block';
-      orderItems = []; totalPrice = 0; liveLocationLink = '';
-      document.getElementById('address').disabled = false;
-      updateOrderSummary();
-      this.reset();
-    });
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if(orderItems.length === 0){
+    alert('Please add at least one item to your order!');
+    return;
+  }
 
-    // Service worker registration (optional PWA)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker?.register('sw.js').catch(err => console.log('SW failed:', err));
-      });
-    }
-  </script>
+  const customerName = document.getElementById('name').value;
+  const customerPhone = document.getElementById('phone').value;
+  const customerAddress = document.getElementById('address').value;
+  const finalAddress = liveLocationLink !== '' ? liveLocationLink : customerAddress;
+
+  // Send order to your WhatsApp
+  let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
+  orderItems.forEach((item, index) => {
+    yourMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
+  });
+  yourMessage += `\nTotal: ₹${totalPrice}`;
+  window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`, '_blank');
+
+  // Send confirmation message to customer
+  let confirmationMessage = `✅ Hello ${customerName}, your order has been received!\n\nOrder Details:\n`;
+  orderItems.forEach((item, index) => {
+    confirmationMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
+  });
+  confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
+
+  const customerWhatsAppNumber = customerPhone.replace(/[^0-9]/g,'');
+  window.open(`https://wa.me/91${customerWhatsAppNumber}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
+
+  document.getElementById('confirmation').style.display = 'block';
+  orderItems = [];
+  totalPrice = 0;
+  liveLocationLink = '';
+  document.getElementById('address').disabled = false;
+  updateOrderSummary();
+  this.reset();
+});
+    if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").then(
+      (reg) => console.log("Service Worker registered:", reg),
+      (err) => console.log("Service Worker failed:", err)
+    );
+  });
+}
+
+</script>
+<div class="contact-section" style="text-align:center; margin:30px 0;">
+  <h3>📲 Connect with Us</h3>
+  
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/udgirbiryaniadda?igsh=ZDAyZzhkeDR1cXFn" target="_blank" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#E4405F; text-decoration:none;">
+    <i class="fab fa-instagram"></i>
+  </a>
+  
+  <!-- Gmail -->
+  <a href="mailto:udgirbiryaniadda@gmail.com" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#D44638; text-decoration:none;">
+    <i class="fas fa-envelope"></i>
+  </a>
+  
+  <!-- WhatsApp -->
+  <a href="https://wa.me/919421229507" target="_blank" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#25D366; text-decoration:none;">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
 </body>
 </html>
