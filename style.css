@@ -33,25 +33,24 @@ header .logo {
   transform: scale(1.05);
 }
 .menu {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
-  margin: 20px;
-  justify-items: center;
 }
-.dish {
-  background-color: #fff3e0;
-  border-radius: 10px;
+
+.menu-item {
+  border: 1px solid #ddd;
   padding: 15px;
-  width: 200px;
-  text-align: center;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-}
-.dish img {
-  width: 100%;
   border-radius: 10px;
+  width: 150px;
+  background: #f8f8f8;
+  text-align: center;
 }
-.cold-drink {
-  grid-column: 1 / span 2; /* take full row */
-  justify-self: center;    /* center inside row */
+
+/* Target only the last item (Cold Drink) */
+.menu-item:last-child {
+  flex-basis: 100%;      /* Take full row */
+  display: flex;
+  justify-content: center;
 }
