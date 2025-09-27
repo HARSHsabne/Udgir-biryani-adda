@@ -56,16 +56,16 @@
 
 <div class="menu">
   <div class="dish">
-    <img src="biryani.jpg" alt="Chicken Dum Biryani (full) ">
-    <h3>Chicken Dum Biryani (full) </h3>
-    <p>₹149</p>
-    <button onclick="addToOrder('Chicken Dum Biryani', 170)">Add to Order</button>
+    <img src="biryani.jpg" alt="Chicken Dum Biryani (Full)">
+    <h3>Chicken Dum Biryani (Full)</h3>
+    <p>₹170</p>
+    <button onclick="addToOrder('Chicken Dum Biryani (Full)', 170)">Add to Order</button>
   </div>
   <div class="dish">
-    <img src="biryani.jpg" alt="Chicken Dum Biryani (half) ">
-    <h3>Chicken Dum Biryani (half)</h3>
+    <img src="biryani_half.jpg" alt="Chicken Dum Biryani (Half)">
+    <h3>Chicken Dum Biryani (Half)</h3>
     <p>₹99</p>
-    <button onclick="addToOrder('Chicken Dum Biryani (half)', 1)">Add to Order</button>
+    <button onclick="addToOrder('Chicken Dum Biryani (Half)', 99)">Add to Order</button>
   </div>
 </div>
 <div class="order-form">
@@ -99,13 +99,18 @@ let liveLocationLink = '';
 const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
-    orderItems.push({ name, price, quantity: 1 });
-  totalPrice += price;
-  updateOrderSummary();
-
   const item = orderItems.find(i => i.name === name);
-  showPopup(`${item.quantity} ${item.name} added`, "success");
+  if(item) {
+    item.quantity += 1;
+    item.price = price; // make sure price is correct
+  } else {
+    orderItems.push({name, price, quantity: 1});
+  }
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+  showPopup(`${item ? item.quantity : 1} ${name} added`);
 }
+
 
 // Updated showPopup to handle success/error colors
 function showPopup(message, type = "success") {
