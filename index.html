@@ -56,16 +56,16 @@
 
 <div class="menu">
   <div class="dish">
-    <img src="biryani.jpg" alt="Chicken Biryani">
-    <h3>Chicken Biryani</h3>
+    <img src="biryani.jpg" alt="Chicken Dum Biryani (full) ">
+    <h3>Chicken Dum Biryani (full) </h3>
     <p>₹149</p>
-    <button onclick="addToOrder('Chicken Biryani', 149)">Add to Order</button>
+    <button onclick="addToOrder('Chicken Dum Biryani', 170)">Add to Order</button>
   </div>
-  <div class="dish cold-drink">
-    <img src="cold_drink.jpg" alt="Cold Drink">
-    <h3>Cold Drink</h3>
-    <p>₹1 (with Biryani)</p>
-    <button onclick="addToOrder('Cold Drink', 1)">Add to Order</button>
+  <div class="dish">
+    <img src="biryani.jpg" alt="Chicken Dum Biryani (half) ">
+    <h3>Chicken Dum Biryani (half)</h3>
+    <p>₹99</p>
+    <button onclick="addToOrder('Chicken Dum Biryani (half)', 1)">Add to Order</button>
   </div>
 </div>
 <div class="order-form">
@@ -99,34 +99,7 @@ let liveLocationLink = '';
 const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
-  // Cold Drink checks
-  if (name === "Cold Drink") {
-    const biryaniCount = orderItems
-      .filter(item => item.name.includes("Biryani"))
-      .reduce((sum, item) => sum + item.quantity, 0);
-
-    const coldDrinkCount = orderItems
-      .filter(item => item.name === "Cold Drink")
-      .reduce((sum, item) => sum + item.quantity, 0);
-
-    if (biryaniCount === 0) {
-      showPopup("Cold drink is available only with Biryani!", "error");
-      return;
-    }
-    if (coldDrinkCount >= biryaniCount) {
-      showPopup("You can only add 1 Cold Drink per Biryani.", "error");
-      return;
-    }
-  }
-
-  let existingItem = orderItems.find(item => item.name === name);
-
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
     orderItems.push({ name, price, quantity: 1 });
-  }
-
   totalPrice += price;
   updateOrderSummary();
 
