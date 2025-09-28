@@ -192,8 +192,8 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
   });
   confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
 
-  const customerWhatsAppNumber = customerPhone.replace(/[^0-9]/g,'');
-  window.open(`https://wa.me/91${customerWhatsAppNumber}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
+ // const customerWhatsAppNumber = customerPhone.replace(/[^0-9]/g,'');
+ // window.open(`https://wa.me/91${customerWhatsAppNumber}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
 
   document.getElementById('confirmation').style.display = 'block';
   orderItems = [];
