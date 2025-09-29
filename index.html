@@ -180,20 +180,6 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
   const customerAddress = document.getElementById('address').value;
   const finalAddress = liveLocationLink !== '' ? liveLocationLink : customerAddress;
  
-  // Save to localStorage
-  let orders = JSON.parse(localStorage.getItem('orders')) || [];
-  orders.push({
-   id: Date.now(), // unique ID
-   name: customerName,
-   phone: customerPhone,
-   address: finalAddress,
-   orderDetails: orderItems.map(i => `${i.name} ×${i.quantity}`).join(', '),
-   total: totalPrice,
-   referral: referral || '',
-   status: 'Pending'
-  });
-  localStorage.setItem('orders', JSON.stringify(orders));
-  
   // Send order to your WhatsApp
   let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
   orderItems.forEach((item, index) => {
