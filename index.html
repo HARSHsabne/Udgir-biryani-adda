@@ -171,6 +171,9 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
     alert('Please add at least one item to your order!');
     return;
   }
+// Get referral from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const referral = urlParams.get('ref'); // e.g., "amhiudgirkar"
 
   const customerName = document.getElementById('name').value;
   const customerPhone = document.getElementById('phone').value;
@@ -191,7 +194,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
     confirmationMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
   });
   confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
-
+  yourMessage += `\n\n👥 Referral: ${refCode}`;
  // const customerWhatsAppNumber = customerPhone.replace(/[^0-9]/g,'');
  // window.open(`https://wa.me/91${customerWhatsAppNumber}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
 
