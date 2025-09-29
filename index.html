@@ -191,7 +191,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
   // Send confirmation message to customer
   let confirmationMessage = `✅ Hello ${customerName}, your order has been received!\n\nOrder Details:\n`;
   orderItems.forEach((item, index) => {
-    confirmationMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
+  yourMessage += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
   });
   confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
   yourMessage += `\n\n👥 Referral: ${referral || 'none'}`;
