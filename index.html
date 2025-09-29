@@ -185,7 +185,8 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
   orderItems.forEach((item, index) => {
   yourMessage += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;  });
   yourMessage += `\nTotal: ₹${totalPrice}`;
-  yourMessage += `\n\n👥 Referral: ${referral || 'none'}`;
+  if (referral) {
+  yourMessage += `\n\n👥 Referral: ${referral}`;}
   window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`, '_blank');
 
 
