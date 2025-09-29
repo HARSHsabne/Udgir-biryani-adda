@@ -183,21 +183,11 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
   // Send order to your WhatsApp
   let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
   orderItems.forEach((item, index) => {
-    yourMessage += `${index+1}. ${item.name} - ₹${item.price}\n`;
-  });
+  yourMessage += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;  });
   yourMessage += `\nTotal: ₹${totalPrice}`;
+  yourMessage += `\n\n👥 Referral: ${referral || 'none'}`;
   window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`, '_blank');
 
-  // Send confirmation message to customer
-  let confirmationMessage = `✅ Hello ${customerName}, your order has been received!\n\nOrder Details:\n`;
-  orderItems.forEach((item, index) => {
-  yourMessage += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
-  });
-  confirmationMessage += `\nTotal: ₹${totalPrice}\n💳 Payment: Cash on Delivery\n🚚 Delivery expected in 45 mins\n\nThank you for ordering from Udgir Biryani Adda!`;
-  yourMessage += `\n\n👥 Referral: ${referral || 'none'}`;
-
- // const customerWhatsAppNumber = customerPhone.replace(/[^0-9]/g,'');
- // window.open(`https://wa.me/91${customerWhatsAppNumber}?text=${encodeURIComponent(confirmationMessage)}`, '_blank');
 
   document.getElementById('confirmation').style.display = 'block';
   orderItems = [];
