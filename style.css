@@ -70,33 +70,3 @@ footer {
     font-size: 12px;
   }
 }
-  text-decoration: none;
-}
-
-/* ===== FOOTER ===== */
-footer {
-  width: 100%;
-  text-align: center;
-  padding: 12px 0;
-  background-color: #d32f2f;
-}
-
-.footer-blessing {
-  color: #ffe0b2;
-  font-size: 14px;
-  font-style: italic;
-  margin: 0;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 480px) {
-  header img.logo {
-    width: 60px;
-  }
-  .contact-bar {
-    font-size: 14px;
-  }
-  .footer-blessing {
-    font-size: 12px;
-  }
-}
