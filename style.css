@@ -1,21 +1,26 @@
 header {
   background-color: #d32f2f;
   color: white;
-  text-align: center;
-  padding: 10px 0;
-  font-size: 24px;
-  font-weight: bold;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* center logo + text */
+  gap: 10px;               /* space between logo and text */
+  padding: 8px 16px;       /* smaller vertical padding */
+  font-size: 20px;          /* slightly smaller font */
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* subtle shadow */
 }
 
-header .logo {
-  height: 70px;      /* Adjust size as needed */
+header img.logo {
+  height: 40px; /* smaller logo */
   width: auto;
-  margin-right: 10px;
-  border-radius: 5px; /* optional */
 }
+
+@media (max-width: 500px) {
+  header img.logo { height: 30px; }
+  header { font-size: 16px; }
+}
+
 .location-btn {
   background-color: #ff5722;
   color: white;
