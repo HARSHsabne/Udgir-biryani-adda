@@ -1,32 +1,16 @@
-/* HEADER */
 header {
-  position: relative;
-  width: 100vw;                 /* span full viewport width */
-  left: 0;
-  right: 0;
-  top: 0;
-
-  background-color: #d32f2f;
+  text-align: center;
+  padding: 15px;
+  background: #d32f2f;
   color: white;
-  display: flex;                /* flexbox for logo + text */
-  align-items: center;
-  justify-content: flex-start;  /* logo left, text next */
-  padding: 15px 20px;
-  box-sizing: border-box;
+}
+header img.logo {
+  width: 80px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
 }
 
-header .logo {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  margin-right: 12px;
-}
-
-header h1 {
-  font-size: 22px;
-  margin: 0;
-  font-weight: bold;
-}
 
 
 /* Contact Bar */
