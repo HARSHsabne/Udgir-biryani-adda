@@ -1,24 +1,16 @@
 header {
     background-color: #d32f2f;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* center logo + text */
-    gap: 15px;               /* slightly more space between logo and text */
-    padding: 12px 20px;      /* increased vertical padding */
-    font-size: 24px;          /* bigger font */
+    text-align: center;
+    padding: 20px 0;
+    font-size: 24px;
     font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.25); /* slightly stronger shadow */
 }
 
-header img.logo {
-    height: 70px; /* bigger logo */
-    width: auto;
-}
-
-@media (max-width: 500px) {
-    header img.logo { height: 50px; }
-    header { font-size: 18px; gap: 10px; }
+header .logo {
+    width: 60px;
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
 
