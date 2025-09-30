@@ -1,9 +1,10 @@
+/* Remove default body spacing */
 body {
   margin: 0;
   padding: 0;
 }
 
-/* Full-width header */
+/* Full-width header with centered logo and text */
 header {
   width: 100%;
   text-align: center;
@@ -11,6 +12,31 @@ header {
   background: #d32f2f;
   color: white;
 }
+
+/* Logo inside header */
+header img.logo {
+  width: 80px;        /* adjust size as needed */
+  max-width: 100%;    /* responsive */
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* Contact bar full width */
+.contact-bar {
+  width: 100%;
+  text-align: center;
+  background-color: #ffccbc;
+  padding: 8px 0;    /* vertical padding */
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.contact-bar a {
+  color: #d32f2f;
+  text-decoration: none;
+}
+
 /* FOOTER */
 footer {
   background-color: #d32f2f;
