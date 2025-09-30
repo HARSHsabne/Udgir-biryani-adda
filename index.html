@@ -1,43 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#d32f2f">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Udgir Biryani Adda</title>
 <style>
   body { font-family: Arial, sans-serif; background: #fff8f0; margin: 0; padding: 0; }
 
-  /* Fixed Header */
-  header {
-    background-color: #d32f2f;
-    color: white;
-    display: flex;
-    align-items: center;        /* vertically center logo and text */
-    justify-content: center;    /* horizontally center content */
-    gap: 10px;                  /* space between logo and text */
-    padding: 8px 16px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  header img.logo {
-    height: 40px;               /* fixed logo height */
-    width: auto;
-  }
-
-  /* Phone strip below header */
-  .phone-strip {
-    text-align:center; 
-    background-color:#ffccbc; 
-    padding:8px; 
-    font-size:16px; 
-    font-weight:bold;
-  }
-  .phone-strip a { color:#d32f2f; text-decoration:none; }
-
-  /* Menu and dishes */
+  header { background-color: #d32f2f; color: white; text-align: center; padding: 20px 0; font-size: 24px; font-weight: bold; }
   .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
   .dish { background-color: #fff3e0; border-radius: 10px; margin: 10px; padding: 15px; width: 200px; text-align: center; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
   .dish img { width: 100%; border-radius: 10px; }
@@ -46,7 +19,6 @@
   .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
   .dish button:hover { background-color: #b71c1c; }
 
-  /* Order Form */
   .order-form { max-width: 400px; margin: 20px auto; background-color: #ffe0b2; padding: 20px; border-radius: 10px; }
   .order-form h2 { text-align: center; }
   .order-form label { display: block; margin: 10px 0 5px 0; }
@@ -59,7 +31,14 @@
 
   .confirmation { text-align: center; color: green; font-weight: bold; margin: 20px 0; display: none; }
 
-  /* Popup Toast for install */
+  #popupMessage {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #d32f2f; color: white; padding: 10px 20px; border-radius: 8px;
+    font-size: 16px; opacity: 0; transition: opacity 0.5s ease, bottom 0.5s ease;
+    z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  /* Install App Popup */
   #installPopup {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100%);
     background: #d32f2f; color: white; padding: 15px 20px; border-radius: 10px;
@@ -71,32 +50,16 @@
   #installPopup button { cursor: pointer; border-radius: 6px; font-weight: bold; padding: 8px 16px; border: none; }
   #installBtn { background: white; color: #d32f2f; }
   #closePopup { background: transparent; color: white; border:1px solid white; }
-
-  /* Popup message */
-  #popupMessage {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    background: #d32f2f; color: white; padding: 10px 20px; border-radius: 8px;
-    font-size: 16px; opacity: 0; transition: opacity 0.5s ease, bottom 0.5s ease;
-    z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-
-  /* Contact Section */
-  .contact-section { text-align:center; margin:30px 0; }
-  .contact-section h3 { margin-bottom: 10px; }
-  .contact-section a { margin:10px; font-size:22px; }
-  
-  footer { text-align:center; margin-bottom: 20px; }
-  .footer-blessing { font-size:16px; color:#d32f2f; }
 </style>
 </head>
 <body>
 
 <header>
-  <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
-  <span>Udgir Biryani Adda</span>
+  <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo"> Udgir Biryani Adda
 </header>
-<div class="phone-strip">
-  📞 <a href="tel:+919421229507">+91 94212 29507</a>
+
+<div style="text-align:center; background-color:#ffccbc; padding:8px; font-size:16px; font-weight:bold;">
+  📞 <a href="tel:+919421229507" style="color:#d32f2f; text-decoration:none;">+91 94212 29507</a>
 </div>
 
 <div class="menu">
@@ -138,26 +101,20 @@
   ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
 </div>
 
-<!-- Install Popup -->
-<div id="installPopup">
-  📲 Install Udgir Biryani Adda App
-  <button id="installBtn">Install</button>
-  <button id="closePopup">❌</button>
+<div class="contact-section" style="text-align:center; margin:30px 0;">
+  <h3>📲 Connect with Us</h3>
+  <a href="https://www.instagram.com/udgirbiryaniadda" target="_blank" style="margin:10px; font-size:22px; color:#E4405F;"><i class="fab fa-instagram"></i></a>
+  <a href="mailto:udgirbiryaniadda@gmail.com" style="margin:10px; font-size:22px; color:#D44638;"><i class="fas fa-envelope"></i></a>
+  <a href="https://wa.me/919421229507" target="_blank" style="margin:10px; font-size:22px; color:#25D366;"><i class="fab fa-whatsapp"></i></a>
 </div>
 
 <div id="popupMessage"></div>
 
-<div class="contact-section">
-  <h3>📲 Connect with Us</h3>
-  <a href="https://www.instagram.com/udgirbiryaniadda" target="_blank" style="color:#E4405F;">
-    <i class="fab fa-instagram"></i>
-  </a>
-  <a href="mailto:udgirbiryaniadda@gmail.com" style="color:#D44638;">
-    <i class="fas fa-envelope"></i>
-  </a>
-  <a href="https://wa.me/919421229507" target="_blank" style="color:#25D366;">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+<!-- Install App Popup -->
+<div id="installPopup">
+  📲 Install Udgir Biryani Adda App
+  <button id="installBtn">Install</button>
+  <button id="closePopup">❌</button>
 </div>
 
 <footer>
@@ -165,113 +122,110 @@
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  let orderItems = [];
-  let totalPrice = 0;
-  let liveLocationLink = '';
-  const yourWhatsAppNumber = "919421229507";
+let orderItems = [];
+let totalPrice = 0;
+let liveLocationLink = '';
+const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
-  function addToOrder(name, price) {
-    const item = orderItems.find(i => i.name === name);
-    if(item) { item.quantity +=1; item.price=price; } 
-    else { orderItems.push({name, price, quantity:1}); }
-    totalPrice = orderItems.reduce((sum,i)=>sum+i.price*i.quantity,0);
-    updateOrderSummary();
-    showPopup(`${item ? item.quantity : 1} ${name} added`);
-  }
+function addToOrder(name, price) {
+  const item = orderItems.find(i => i.name === name);
+  if(item) { item.quantity += 1; item.price = price; } 
+  else { orderItems.push({name, price, quantity: 1}); }
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+  showPopup(`${item ? item.quantity : 1} ${name} added`, "success");
+}
 
-  function updateOrderSummary() {
-    const orderSummary = document.getElementById('orderSummary');
-    let summary = '';
-    orderItems.forEach((item,index)=>{
-      summary += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
-    });
-    summary += `\nTotal: ₹${totalPrice}`;
-    orderSummary.value = summary;
-  }
-
-  function captureLocation() {
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition((pos)=>{
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
-        liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
-        alert('Live location captured!');
-        document.getElementById('address').value='';
-        document.getElementById('address').disabled=true;
-      },()=>{alert('Enable location services!');});
-    } else alert('Geolocation not supported.');
-  }
-
-  function showPopup(message){
-    const popup=document.getElementById('popupMessage');
-    popup.innerText = message;
-    popup.style.opacity = "1";
-    popup.style.bottom = "40px";
-    setTimeout(()=>{ popup.style.opacity="0"; popup.style.bottom="20px"; },2000);
-  }
-
-  document.getElementById('orderForm').addEventListener('submit',(e)=>{
-    e.preventDefault();
-    if(orderItems.length===0){ alert('Add at least one item!'); return; }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const referral = urlParams.get('ref');
-    const customerName = document.getElementById('name').value;
-    const customerPhone = document.getElementById('phone').value;
-    const customerAddress = document.getElementById('address').value;
-    const finalAddress = liveLocationLink || customerAddress;
-
-    let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
-    orderItems.forEach((item,index)=>{ yourMessage += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`; });
-    yourMessage += `\nTotal: ₹${totalPrice}`;
-    if(referral) yourMessage += `\n\n👥 Referral: ${referral}`;
-
-    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`,'_blank');
-
-    document.getElementById('confirmation').style.display='block';
-    orderItems=[]; totalPrice=0; liveLocationLink='';
-    document.getElementById('address').disabled=false;
-    updateOrderSummary();
-    e.target.reset();
+function updateOrderSummary() {
+  const orderSummary = document.getElementById('orderSummary');
+  let summary = '';
+  orderItems.forEach((item,index) => {
+    summary += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
   });
+  summary += `\nTotal: ₹${totalPrice}`;
+  orderSummary.value = summary;
+}
 
-  // Service Worker registration
-  if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("sw.js").then(
-      reg=>console.log("SW registered:",reg),
-      err=>console.log("SW failed:",err)
+function showPopup(message, type="success"){
+  const popup=document.getElementById('popupMessage');
+  popup.innerText = message;
+  popup.style.background = type==="success"?"#4CAF50":"#f44336";
+  popup.style.opacity = "1";
+  popup.style.bottom = "40px";
+  setTimeout(()=>{ popup.style.opacity="0"; popup.style.bottom="20px"; },2000);
+}
+
+function captureLocation() {
+  if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      (pos)=>{ 
+        const lat=pos.coords.latitude, lon=pos.coords.longitude;
+        liveLocationLink=`https://www.google.com/maps?q=${lat},${lon}`;
+        alert('Live location captured!'); 
+        const addr = document.getElementById('address');
+        addr.value=''; addr.disabled=true;
+      },
+      ()=>{ alert('Could not get location. Please enable location services.'); }
     );
-  }
+  } else alert('Geolocation not supported.');
+}
 
-  // PWA Install Popup
-  let deferredPrompt;
-  const installPopup = document.getElementById('installPopup');
-  const installBtn = document.getElementById('installBtn');
-  const closePopup = document.getElementById('closePopup');
+document.getElementById('orderForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  if(orderItems.length===0){ alert('Add at least one item!'); return; }
+  const urlParams=new URLSearchParams(window.location.search);
+  const referral=urlParams.get('ref');
+  const name=document.getElementById('name').value;
+  const phone=document.getElementById('phone').value;
+  const addr=document.getElementById('address').value;
+  const finalAddress = liveLocationLink || addr;
 
-  window.addEventListener('beforeinstallprompt', (e)=>{
-    e.preventDefault();
-    deferredPrompt = e;
-    installPopup.classList.add('show');
-   // setTimeout(()=>{ installPopup.classList.remove('show'); },8000);
-  });
+  let msg=`🛒 New Biryani Order:\n\nName: ${name}\nPhone: ${phone}\nAddress: ${finalAddress}\n\nOrder:\n`;
+  orderItems.forEach((item,index)=>{ msg += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`; });
+  msg += `\nTotal: ₹${totalPrice}`;
+  if(referral) msg += `\n\n👥 Referral: ${referral}`;
 
-  installBtn.addEventListener('click', async ()=>{
-    if(deferredPrompt){
-      deferredPrompt.prompt();
-      const {outcome} = await deferredPrompt.userChoice;
-      console.log('User choice:', outcome);
-      deferredPrompt=null;
-      installPopup.classList.remove('show');
-    }
-  });
+  window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(msg)}`, '_blank');
 
-  closePopup.addEventListener('click', ()=>{ installPopup.classList.remove('show'); });
-
-  window.addToOrder = addToOrder;
-  window.captureLocation = captureLocation;
+  document.getElementById('confirmation').style.display='block';
+  orderItems=[]; totalPrice=0; liveLocationLink='';
+  document.getElementById('address').disabled=false;
+  updateOrderSummary();
+  this.reset();
 });
+
+// Service Worker
+if ("serviceWorker" in navigator){
+  window.addEventListener("load", ()=>{ navigator.serviceWorker.register("sw.js"); });
+}
+
+// Install App Popup
+let deferredPrompt;
+const installPopup=document.getElementById('installPopup');
+const installBtn=document.getElementById('installBtn');
+const closePopup=document.getElementById('closePopup');
+
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  installPopup.classList.add('show');
+});
+
+installBtn.addEventListener('click', async ()=>{
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    const {outcome} = await deferredPrompt.userChoice;
+    console.log('User choice:', outcome);
+    deferredPrompt=null;
+    installPopup.classList.remove('show');
+  }
+});
+
+closePopup.addEventListener('click', ()=>{ installPopup.classList.remove('show'); });
+
+window.addToOrder = addToOrder;
+window.captureLocation = captureLocation;
 </script>
+
 </body>
 </html>
