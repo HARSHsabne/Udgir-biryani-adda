@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     popup.innerText = message;
     popup.style.opacity = "1";
     popup.style.bottom = "40px";
-   // setTimeout(()=>{ popup.style.opacity="0"; popup.style.bottom="20px"; },2000);
+    setTimeout(()=>{ popup.style.opacity="0"; popup.style.bottom="20px"; },2000);
   }
 
   document.getElementById('orderForm').addEventListener('submit',(e)=>{
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     deferredPrompt = e;
     installPopup.classList.add('show');
-    setTimeout(()=>{ installPopup.classList.remove('show'); },8000);
+   // setTimeout(()=>{ installPopup.classList.remove('show'); },8000);
   });
 
   installBtn.addEventListener('click', async ()=>{
