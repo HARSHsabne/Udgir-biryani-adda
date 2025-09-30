@@ -1,18 +1,52 @@
+/* HEADER */
 header {
-    width: 100%; /* spans full width */
-    background-color: #d32f2f;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    font-size: 24px;
-    font-weight: bold;
+  width: 100%;
+  background-color: #d32f2f;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 15px 0;
+}
+header .logo {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+}
+header h1 {
+  font-size: 22px;
+  margin: 0;
+  font-weight: bold;
 }
 
-header .logo {
-    width: 60px;
-    vertical-align: middle;
-    margin-right: 10px;
+/* Contact Bar */
+.contact-bar {
+  text-align: center;
+  background-color: #ffccbc;
+  padding: 8px;
+  font-size: 16px;
+  font-weight: bold;
 }
+.contact-bar a {
+  color: #d32f2f;
+  text-decoration: none;
+}
+
+/* FOOTER */
+footer {
+  background-color: #d32f2f;
+  text-align: center;
+  padding: 12px 0;
+  margin-top: 20px;
+}
+.footer-blessing {
+  color: #ffe0b2;
+  font-size: 14px;
+  font-style: italic;
+  margin: 0;
+}
+
 
 
 .location-btn {
@@ -32,15 +66,3 @@ header .logo {
   transform: scale(1.05);
 }
 
-footer {
-  background-color: #d32f2f;  /* हेडरसारखाच रंग */
-  text-align: center;
-  padding: 10px 0;
-  margin-top: 20px;
-}
-
-.footer-blessing {
-  color: #ffe0b2;
-  font-size: 14px;
-  font-style: italic;
-}
