@@ -1,10 +1,11 @@
-/* Remove default body spacing */
+/* ===== RESET ===== */
 body {
   margin: 0;
   padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-/* Full-width header with centered logo and text */
+/* ===== HEADER ===== */
 header {
   width: 100%;
   text-align: center;
@@ -13,21 +14,20 @@ header {
   color: white;
 }
 
-/* Logo inside header */
 header img.logo {
-  width: 80px;        /* adjust size as needed */
-  max-width: 100%;    /* responsive */
+  width: 80px;
+  max-width: 100%;
   height: auto;
   display: block;
   margin: 0 auto 10px;
 }
 
-/* Contact bar full width */
+/* ===== CONTACT BAR ===== */
 .contact-bar {
   width: 100%;
   text-align: center;
   background-color: #ffccbc;
-  padding: 8px 0;    /* vertical padding */
+  padding: 8px 0;
   font-size: 16px;
   font-weight: bold;
 }
@@ -37,13 +37,14 @@ header img.logo {
   text-decoration: none;
 }
 
-/* FOOTER */
+/* ===== FOOTER ===== */
 footer {
-  background-color: #d32f2f;
+  width: 100%;
   text-align: center;
   padding: 12px 0;
-  margin-top: 20px;
+  background-color: #d32f2f;
 }
+
 .footer-blessing {
   color: #ffe0b2;
   font-size: 14px;
@@ -51,22 +52,15 @@ footer {
   margin: 0;
 }
 
-
-
-.location-btn {
-  background-color: #ff5722;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
-  transition: background-color 0.3s, transform 0.2s;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  header img.logo {
+    width: 60px;
+  }
+  .contact-bar {
+    font-size: 14px;
+  }
+  .footer-blessing {
+    font-size: 12px;
+  }
 }
-.location-btn:hover {
-  background-color: #e64a19;
-  transform: scale(1.05);
-}
-
