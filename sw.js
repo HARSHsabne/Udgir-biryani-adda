@@ -1,4 +1,4 @@
-const CACHE_NAME = 'udgir-biryani-v14'; // Increment the version when updating
+const CACHE_NAME = 'udgir-biryani-v15'; // Increment the version when updating
 
 const urlsToCache = [
   '/',
