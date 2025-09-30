@@ -1,4 +1,5 @@
 header {
+    width: 100%; /* spans full width */
     background-color: #d32f2f;
     color: white;
     text-align: center;
