@@ -110,7 +110,8 @@ let liveLocationLink = '';
 const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
-  const item = orderItems.find(i => i.name === name);
+  const quantity = orderItems.find(i => i.name === name)?.quantity || 1;
+  showPopup(`${quantity} ${name} added`);
   if(item) {
     item.quantity += 1;
     item.price = price; // make sure price is correct
