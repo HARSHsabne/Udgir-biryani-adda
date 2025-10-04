@@ -110,18 +110,22 @@ let liveLocationLink = '';
 const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
-  const quantity = orderItems.find(i => i.name === name)?.quantity || 1;
-  showPopup(`${quantity} ${name} added`);
-  if(item) {
+  let item = orderItems.find(i => i.name === name);
+  
+  if (item) {
     item.quantity += 1;
-    item.price = price; // make sure price is correct
+    item.price = price; // update price if needed
   } else {
-    orderItems.push({name, price, quantity: 1});
+    item = { name, price, quantity: 1 };
+    orderItems.push(item);
   }
+
   totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
   updateOrderSummary();
-  showPopup(`${item ? item.quantity : 1} ${name} added`);
+
+  showPopup(`${item.quantity} ${item.name} added`);
 }
+
 
 
 // Updated showPopup to handle success/error colors
