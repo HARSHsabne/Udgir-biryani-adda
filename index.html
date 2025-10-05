@@ -92,6 +92,7 @@
     <textarea id="address" rows="3" required></textarea>
     <button type="button" class="location-btn" onclick="captureLocation()">📍 Use My Current Location</button>
 
+    <div id="dynamicOrderList"></div>
     <label for="orderSummary">Your Order:</label>
     <textarea id="orderSummary" rows="4" readonly></textarea>
 
@@ -126,8 +127,6 @@ function addToOrder(name, price) {
   showPopup(`${item.quantity} ${item.name} added`);
 }
 
-
-
 // Updated showPopup to handle success/error colors
 function showPopup(message, type = "success") {
   const popup = document.getElementById('popupMessage');
@@ -146,15 +145,66 @@ function showPopup(message, type = "success") {
 }
 
 
-
 function updateOrderSummary() {
   const orderSummary = document.getElementById('orderSummary');
   let summary = '';
+
   orderItems.forEach((item, index) => {
-    summary += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
+    summary += `${index + 1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
   });
   summary += `\nTotal: ₹${totalPrice}`;
+
   orderSummary.value = summary;
+
+  // Update dynamic buttons UI
+  const summaryContainer = document.getElementById('dynamicOrderList');
+  if (summaryContainer) summaryContainer.remove(); // remove old list
+
+  const form = document.querySelector('.order-form');
+  const newContainer = document.createElement('div');
+  newContainer.id = 'dynamicOrderList';
+  newContainer.style.marginTop = '15px';
+  newContainer.style.background = '#fff8f0';
+  newContainer.style.padding = '10px';
+  newContainer.style.borderRadius = '8px';
+
+  if (orderItems.length === 0) {
+    newContainer.innerHTML = '<p style="text-align:center;">No items added yet.</p>';
+  } else {
+    orderItems.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.style.display = 'flex';
+      row.style.alignItems = 'center';
+      row.style.justifyContent = 'space-between';
+      row.style.marginBottom = '10px';
+      row.innerHTML = `
+        <span style="flex:1;">${item.name}</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button style="background:#d32f2f;color:white;border:none;border-radius:5px;width:28px;height:28px;font-size:18px;" onclick="decreaseQty(${i})">–</button>
+          <span>${item.quantity}</span>
+          <button style="background:#43a047;color:white;border:none;border-radius:5px;width:28px;height:28px;font-size:18px;" onclick="increaseQty(${i})">+</button>
+        </div>
+      `;
+      newContainer.appendChild(row);
+    });
+  }
+  form.insertBefore(newContainer, document.getElementById('orderSummary'));
+}
+
+function increaseQty(index) {
+  orderItems[index].quantity += 1;
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+}
+
+function decreaseQty(index) {
+  if (orderItems[index].quantity > 1) {
+    orderItems[index].quantity -= 1;
+  } else {
+    orderItems.splice(index, 1); // remove item if 0
+  }
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
 }
 
 
