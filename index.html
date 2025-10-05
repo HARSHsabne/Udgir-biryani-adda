@@ -158,7 +158,8 @@
   ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
 </div>
 
-<script>
+<script> 
+const upiID = "YOURUPI@bank";
 let orderItems = [];
 let totalPrice = 0;
 let liveLocationLink = '';
@@ -281,38 +282,42 @@ function captureLocation() {
 }
 
 document.getElementById('orderForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  if(orderItems.length === 0){
-    alert('Please add at least one item to your order!');
-    return;
-  }
-// Get referral from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const referral = urlParams.get('ref'); // e.g., "amhiudgirkar"
+    e.preventDefault();
+    if(orderItems.length === 0){
+        alert('Please add at least one item to your order!');
+        return;
+    }
 
-  const customerName = document.getElementById('name').value;
-  const customerPhone = document.getElementById('phone').value;
-  const customerAddress = document.getElementById('address').value;
-  const finalAddress = liveLocationLink !== '' ? liveLocationLink : customerAddress;
- 
-  // Send order to your WhatsApp
-  let yourMessage = `🛒 New Biryani Order:\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${finalAddress}\n\nOrder:\n`;
-  orderItems.forEach((item, index) => {
-  yourMessage += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;  });
-  yourMessage += `\nTotal: ₹${totalPrice}`;
-  if (referral) {
-  yourMessage += `\n\n👥 Referral: ${referral}`;}
-  window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(yourMessage)}`, '_blank');
+    const customerName = document.getElementById('name').value;
+    const customerPhone = document.getElementById('phone').value;
+    const customerAddress = liveLocationLink || document.getElementById('address').value;
 
+    // Build order summary
+    let orderText = '';
+    orderItems.forEach((item,index)=>{
+        orderText += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
+    });
+    let totalAmount = totalPrice;
 
-  document.getElementById('confirmation').style.display = 'block';
-  orderItems = [];
-  totalPrice = 0;
-  liveLocationLink = '';
-  document.getElementById('address').disabled = false;
-  updateOrderSummary();
-  this.reset();
+    // UPI Payment Link
+    const upiLink = `upi://pay?pa=${upiID}&pn=UdgirBiryani&am=${totalAmount}&cu=INR`;
+
+    // WhatsApp message
+    let message = `🛒 *New Biryani Order*\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}\n\nOrder:\n${orderText}\nTotal: ₹${totalAmount}\n\n💳 *Payment Options*:\n1. COD (Cash on Delivery)\n2. Online Payment: ${upiLink}\n*Note:* If paid online, please send a screenshot along with this message.`;
+
+    // Open WhatsApp
+    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
+
+    // Reset order
+    document.getElementById('confirmation').style.display = 'block';
+    orderItems = [];
+    totalPrice = 0;
+    liveLocationLink = '';
+    document.getElementById('address').disabled = false;
+    updateOrderSummary();
+    this.reset();
 });
+
     if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").then(
