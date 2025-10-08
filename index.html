@@ -4,161 +4,161 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#d32f2f">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Udgir Biryani Adda</title>
+  <style>
+    .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
+    .dish { background-color: #fff3e0; border-radius: 10px; margin: 10px; padding: 15px; width: 200px; text-align: center; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+    .dish img { width: 100%; border-radius: 10px; }
+    .dish h3 { margin: 10px 0 5px 0; }
+    .dish p { margin: 5px 0; }
+    .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+    .dish button:hover { background-color: #b71c1c; }
 
-  
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Udgir Biryani Adda</title>
-  <style>
-    .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
-    .dish { background-color: #fff3e0; border-radius: 10px; margin: 10px; padding: 15px; width: 200px; text-align: center; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
-    .dish img { width: 100%; border-radius: 10px; }
-    .dish h3 { margin: 10px 0 5px 0; }
-    .dish p { margin: 5px 0; }
-    .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
-    .dish button:hover { background-color: #b71c1c; }
+    .order-form { max-width: 400px; margin: 20px auto; background-color: #ffe0b2; padding: 20px; border-radius: 10px; }
+    .order-form h2 { text-align: center; }
+    .order-form label { display: block; margin: 10px 0 5px 0; }
+    .order-form input, .order-form textarea { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+    .order-form button { margin-top: 15px; width: 100%; background-color: #d32f2f; color: white; border: none; padding: 10px; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    .order-form button:hover { background-color: #b71c1c; }
 
-    .order-form { max-width: 400px; margin: 20px auto; background-color: #ffe0b2; padding: 20px; border-radius: 10px; }
-    .order-form h2 { text-align: center; }
-    .order-form label { display: block; margin: 10px 0 5px 0; }
-    .order-form input, .order-form textarea { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
-    .order-form button { margin-top: 15px; width: 100%; background-color: #d32f2f; color: white; border: none; padding: 10px; border-radius: 5px; font-size: 16px; cursor: pointer; }
-    .order-form button:hover { background-color: #b71c1c; }
+    .location-btn {
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .location-btn:hover {
+      background-color: #e64a19;
+      transform: scale(1.05);
+    }
 
-    .location-btn {
-      background-color: #ff5722;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 10px;
-      width: 100%;
-      transition: background-color 0.3s, transform 0.2s;
-    }
-    .location-btn:hover {
-      background-color: #e64a19;
-      transform: scale(1.05);
-    }
-
-    .confirmation { text-align: center; color: green; font-weight: bold; margin: 20px 0; display: none; }
-    
+    .confirmation { text-align: center; color: green; font-weight: bold; margin: 20px 0; display: none; }
+    
 /* Dynamic order list container */
 #dynamicOrderList {
-  margin-top: 15px; /* gap from location button */
+  margin-top: 15px; /* gap from location button */
 }
 
 /* Each item row */
 #dynamicOrderList div {
-  display: flex;
-  align-items: center; /* vertical alignment */
-  justify-content: space-between;
-  margin-bottom: 10px;
-  background: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center; /* vertical alignment */
+  justify-content: space-between;
+  margin-bottom: 10px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 /* Quantity container */
 #dynamicOrderList div div {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* space between - , quantity, + */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between - , quantity, + */
 }
 
 /* + / - buttons */
 #dynamicOrderList button {
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: 0.2s;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: 0.2s;
 }
 
 #dynamicOrderList button:hover {
-  opacity: 0.85;
-  transform: scale(1.05);
+  opacity: 0.85;
+  transform: scale(1.05);
 }
 
 /* Quantity number */
 #dynamicOrderList span {
-  font-weight: 600;
-  min-width: 24px;
-  text-align: center;
-  display: inline-block;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+  display: inline-block;
 }
 
 
-  </style>
+  </style>
 </head>
 <body>
 <!-- PWA Install Popup -->
 <div id="pwa-install-popup" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-     background: white; border: 2px solid #d32f2f; padding: 15px 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-     z-index: 9999; text-align: center;">
-  <button onclick="closePwaPopup()" style="position: absolute; top: 5px; right: 10px; background: none; border: none; color: #d32f2f; font-size: 18px; cursor: pointer;">✖</button>
-  <p style="margin: 0 0 10px 0; font-weight: bold; color: #d32f2f;">Install Udgir Biryani Adda App</p>
-  <button id="install-btn" style="background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
-    Install App
-  </button>
+     background: white; border: 2px solid #d32f2f; padding: 15px 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+     z-index: 9999; text-align: center;">
+  <button onclick="closePwaPopup()" style="position: absolute; top: 5px; right: 10px; background: none; border: none; color: #d32f2f; font-size: 18px; cursor: pointer;">✖</button>
+  <p style="margin: 0 0 10px 0; font-weight: bold; color: #d32f2f;">Install Udgir Biryani Adda App</p>
+  <button id="install-btn" style="background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
+    Install App
+  </button>
 </div>
 
 <header>
-  <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
-  <h1>Udgir Biryani Adda</h1>
+  <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
+  <h1>Udgir Biryani Adda</h1>
 </header>
 
 <div class="contact-bar">
-  📞 <a href="tel:+919421229507">+91 94212 29507</a>
+  📞 <a href="tel:+919421229507">+91 94212 29507</a>
 </div>
 <div class="menu">
-  <div class="dish">
-    <img src="biryani.jpg" alt="Chicken Dum Biryani (Full)">
-    <h3>Chicken Dum Biryani (Full)</h3>
-    <p>₹149</p>
-    <button onclick="addToOrder('Chicken Dum Biryani (Full)', 149)">Add to Order</button>
-  </div>
-  <div class="dish">
-    <img src="biryani_half.jpg" alt="Chicken Dum Biryani (Half)">
-    <h3>Chicken Dum Biryani (Half)</h3>
-    <p>₹99</p>
-    <button onclick="addToOrder('Chicken Dum Biryani (Half)', 99)">Add to Order</button>
-  </div>
+  <div class="dish">
+    <img src="biryani.jpg" alt="Chicken Dum Biryani (Full)">
+    <h3>Chicken Dum Biryani (Full)</h3>
+    <p>₹149</p>
+    <button onclick="addToOrder('Chicken Dum Biryani (Full)', 149)">Add to Order</button>
+  </div>
+  <div class="dish">
+    <img src="biryani_half.jpg" alt="Chicken Dum Biryani (Half)">
+    <h3>Chicken Dum Biryani (Half)</h3>
+    <p>₹99</p>
+    <button onclick="addToOrder('Chicken Dum Biryani (Half)', 99)">Add to Order</button>
+  </div>
 </div>
 <div class="order-form">
-  <h2>Place Your Order</h2>
-  <form id="orderForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" required>
+  <h2>Place Your Order</h2>
+  <form id="orderForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
 
-    <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" required>
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" required>
 
-    <label for="address">Delivery Address:</label>
-    <textarea id="address" rows="3" required></textarea>
-    <button type="button" class="location-btn" onclick="captureLocation()">📍 Use My Current Location</button>
+    <label for="address">Delivery Address:</label>
+    <textarea id="address" rows="3" required></textarea>
+    <button type="button" class="location-btn" onclick="captureLocation()">📍 Use My Current Location</button>
 
-    <div id="dynamicOrderList"></div>
-    <label for="orderSummary">Your Order:</label>
-    <textarea id="orderSummary" rows="4" readonly></textarea>
+    <div id="dynamicOrderList"></div>
+    <label for="orderSummary">Your Order:</label>
+    <textarea id="orderSummary" rows="4" readonly></textarea>
 
-    <button type="submit">Send Order via WhatsApp</button>
-  </form>
+    <button type="submit">Send Order via WhatsApp</button>
+  </form>
 </div>
 
 <div class="confirmation" id="confirmation">
-  ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
+  ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
 </div>
 
-<script> 
+<script> 
 const upiID = "YOURUPI@bank";
 let orderItems = [];
 let totalPrice = 0;
@@ -166,230 +166,230 @@ let liveLocationLink = '';
 const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
-  let item = orderItems.find(i => i.name === name);
-  
-  if (item) {
-    item.quantity += 1;
-    item.price = price; // update price if needed
-  } else {
-    item = { name, price, quantity: 1 };
-    orderItems.push(item);
-  }
+  let item = orderItems.find(i => i.name === name);
+  
+  if (item) {
+    item.quantity += 1;
+    item.price = price; // update price if needed
+  } else {
+    item = { name, price, quantity: 1 };
+    orderItems.push(item);
+  }
 
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
 
-  showPopup(`${item.quantity} ${item.name} added`);
+  showPopup(`${item.quantity} ${item.name} added`);
 }
 
 // Updated showPopup to handle success/error colors
 function showPopup(message, type = "success") {
-  const popup = document.getElementById('popupMessage');
-  popup.innerText = message;
-  popup.style.background = type === "success" ? "#4CAF50" : "#f44336"; // green or red
+  const popup = document.getElementById('popupMessage');
+  popup.innerText = message;
+  popup.style.background = type === "success" ? "#4CAF50" : "#f44336"; // green or red
 
-  // show with animation
-  popup.style.opacity = "1";
-  popup.style.bottom = "40px";
+  // show with animation
+  popup.style.opacity = "1";
+  popup.style.bottom = "40px";
 
-  // hide after 2s with fade out
-  setTimeout(() => {
-    popup.style.opacity = "0";
-    popup.style.bottom = "20px";
-  }, 2000);
+  // hide after 2s with fade out
+  setTimeout(() => {
+    popup.style.opacity = "0";
+    popup.style.bottom = "20px";
+  }, 2000);
 }
 
 
 function updateOrderSummary() {
-  const orderSummary = document.getElementById('orderSummary');
-  let summary = '';
+  const orderSummary = document.getElementById('orderSummary');
+  let summary = '';
 
-  // Text summary
-  orderItems.forEach((item, index) => {
-    summary += `${index + 1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
-  });
-  summary += `\nTotal: ₹${totalPrice}`;
-  orderSummary.value = summary;
+  // Text summary
+  orderItems.forEach((item, index) => {
+    summary += `${index + 1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
+  });
+  summary += `\nTotal: ₹${totalPrice}`;
+  orderSummary.value = summary;
 
-  // Update visible order list with + / - buttons
-  const list = document.getElementById('dynamicOrderList');
-  list.innerHTML = ''; // clear old list
+  // Update visible order list with + / - buttons
+  const list = document.getElementById('dynamicOrderList');
+  list.innerHTML = ''; // clear old list
 
-  if (orderItems.length === 0) {
-    list.innerHTML = '<p style="text-align:center;">No items added yet.</p>';
-    return;
-  }
+  if (orderItems.length === 0) {
+    list.innerHTML = '<p style="text-align:center;">No items added yet.</p>';
+    return;
+  }
 
-  orderItems.forEach((item, i) => {
-    const row = document.createElement('div');
-    row.style.display = 'flex';
-    row.style.alignItems = 'center';
-    row.style.justifyContent = 'space-between';
-    row.style.marginBottom = '10px';
-    row.style.background = '#fff';
-    row.style.padding = '10px';
-    row.style.borderRadius = '8px';
-    row.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+  orderItems.forEach((item, i) => {
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.alignItems = 'center';
+    row.style.justifyContent = 'space-between';
+    row.style.marginBottom = '10px';
+    row.style.background = '#fff';
+    row.style.padding = '10px';
+    row.style.borderRadius = '8px';
+    row.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
 
-    row.innerHTML = `
-      <span style="flex:1;">${item.name}</span>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <button style="background:#d32f2f;color:white;border:none;border-radius:5px;width:28px;height:28px;font-size:18px;" onclick="decreaseQty(${i})">–</button>
-        <span>${item.quantity}</span>
-        <button style="background:#43a047;color:white;border:none;border-radius:5px;width:28px;height:28px;font-size:18px;" onclick="increaseQty(${i})">+</button>
-      </div>
-    `;
-    list.appendChild(row);
-  });
+    row.innerHTML = `
+      <span style="flex:1;">${item.name}</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button style="background:#d32f2f;color:white;border:none;border-radius:5px;width:28px;height:28px;font-size:18px;" onclick="decreaseQty(${i})">–</button>
+        <span>${item.quantity}</span>
+        <button style="background:#43a047;color:white;border:none;border-radius:5px;width:28px;height:28px;font-size:18px;" onclick="increaseQty(${i})">+</button>
+      </div>
+    `;
+    list.appendChild(row);
+  });
 }
 
 function increaseQty(index) {
-  orderItems[index].quantity += 1;
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
+  orderItems[index].quantity += 1;
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
 }
 
 function decreaseQty(index) {
-  if (orderItems[index].quantity > 1) {
-    orderItems[index].quantity -= 1;
-  } else {
-    orderItems.splice(index, 1); // remove item if 0
-  }
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
+  if (orderItems[index].quantity > 1) {
+    orderItems[index].quantity -= 1;
+  } else {
+    orderItems.splice(index, 1); // remove item if 0
+  }
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
 }
 
 
 function captureLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
-        alert('Live location captured! You do not need to enter address manually.');
-        const addressField = document.getElementById('address');
-        addressField.value = '';
-        addressField.disabled = true;
-      },
-      () => {
-        alert('Could not get location. Please enable location services.');
-      }
-    );
-  } else {
-    alert('Geolocation is not supported by your browser.');
-  }
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
+        alert('Live location captured! You do not need to enter address manually.');
+        const addressField = document.getElementById('address');
+        addressField.value = '';
+        addressField.disabled = true;
+      },
+      () => {
+        alert('Could not get location. Please enable location services.');
+      }
+    );
+  } else {
+    alert('Geolocation is not supported by your browser.');
+  }
 }
 
 document.getElementById('orderForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    if(orderItems.length === 0){
-        alert('Please add at least one item to your order!');
-        return;
-    }
+    e.preventDefault();
+    if(orderItems.length === 0){
+        alert('Please add at least one item to your order!');
+        return;
+    }
 
-    const customerName = document.getElementById('name').value;
-    const customerPhone = document.getElementById('phone').value;
-    const customerAddress = liveLocationLink || document.getElementById('address').value;
+    const customerName = document.getElementById('name').value;
+    const customerPhone = document.getElementById('phone').value;
+    const customerAddress = liveLocationLink || document.getElementById('address').value;
 
-    // Build order summary
-    let orderText = '';
-    orderItems.forEach((item,index)=>{
-        orderText += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
-    });
-    let totalAmount = totalPrice;
+    // Build order summary
+    let orderText = '';
+    orderItems.forEach((item,index)=>{
+        orderText += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
+    });
+    let totalAmount = totalPrice;
 
-    // UPI Payment Link
-    const upiLink = `upi://pay?pa=${upiID}&pn=UdgirBiryani&am=${totalAmount}&cu=INR`;
+    // UPI Payment Link
+    const upiLink = `upi://pay?pa=${upiID}&pn=UdgirBiryani&am=${totalAmount}&cu=INR`;
 
-    // WhatsApp message
-    let message = `🛒 *New Biryani Order*\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}\n\nOrder:\n${orderText}\nTotal: ₹${totalAmount}\n\n💳 *Payment Options*:\n1. COD (Cash on Delivery)\n2. Online Payment: ${upiLink}\n*Note:* If paid online, please send a screenshot along with this message.`;
+    // WhatsApp message
+    let message = `🛒 *New Biryani Order*\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}\n\nOrder:\n${orderText}\nTotal: ₹${totalAmount}\n\n💳 *Payment Options*:\n1. COD (Cash on Delivery)\n2. Online Payment: ${upiLink}\n*Note:* If paid online, please send a screenshot along with this message.`;
 
-    // Open WhatsApp
-    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
+    // Open WhatsApp
+    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
 
-    // Reset order
-    document.getElementById('confirmation').style.display = 'block';
-    orderItems = [];
-    totalPrice = 0;
-    liveLocationLink = '';
-    document.getElementById('address').disabled = false;
-    updateOrderSummary();
-    this.reset();
+    // Reset order
+    document.getElementById('confirmation').style.display = 'block';
+    orderItems = [];
+    totalPrice = 0;
+    liveLocationLink = '';
+    document.getElementById('address').disabled = false;
+    updateOrderSummary();
+    this.reset();
 });
 
-    if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").then(
-      (reg) => console.log("Service Worker registered:", reg),
-      (err) => console.log("Service Worker failed:", err)
-    );
-  });
+    if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").then(
+      (reg) => console.log("Service Worker registered:", reg),
+      (err) => console.log("Service Worker failed:", err)
+    );
+  });
 }
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent the default mini-infobar
-  e.preventDefault();
-  deferredPrompt = e;
+  // Prevent the default mini-infobar
+  e.preventDefault();
+  deferredPrompt = e;
 
-  // Show custom install popup
-  const popup = document.getElementById('pwa-install-popup');
-  popup.style.display = 'block';
+  // Show custom install popup
+  const popup = document.getElementById('pwa-install-popup');
+  popup.style.display = 'block';
 });
 
 document.getElementById('install-btn').addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
 
-    const { outcome } = await deferredPrompt.userChoice;
+    const { outcome } = await deferredPrompt.userChoice;
 
-    if (outcome === 'accepted') {
-      console.log('User accepted the install prompt');
-    } else {
-      console.log('User dismissed the install prompt');
-    }
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
+    }
 
-    // Hide the install popup
-    document.getElementById('pwa-install-popup').style.display = 'none';
-    deferredPrompt = null;
-  }
+    // Hide the install popup
+    document.getElementById('pwa-install-popup').style.display = 'none';
+    deferredPrompt = null;
+  }
 });
-  function closePwaPopup() {
+  function closePwaPopup() {
   document.getElementById('pwa-install-popup').style.display = 'none';
 }
 
 
 </script>
 <div class="contact-section" style="text-align:center; margin:30px 0;">
-  <h3>📲 Connect with Us</h3>
-  
-  <!-- Instagram -->
-  <a href="https://www.instagram.com/udgirbiryaniadda?igsh=ZDAyZzhkeDR1cXFn" target="_blank" 
-     style="display:inline-block; margin:10px; font-size:22px; color:#E4405F; text-decoration:none;">
-    <i class="fab fa-instagram"></i>
-  </a>
-  
-  <!-- Gmail -->
-  <a href="mailto:udgirbiryaniadda@gmail.com" 
-     style="display:inline-block; margin:10px; font-size:22px; color:#D44638; text-decoration:none;">
-    <i class="fas fa-envelope"></i>
-  </a>
-  
-  <!-- WhatsApp -->
-  <a href="https://wa.me/919421229507" target="_blank" 
-     style="display:inline-block; margin:10px; font-size:22px; color:#25D366; text-decoration:none;">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+  <h3>📲 Connect with Us</h3>
+  
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/udgirbiryaniadda?igsh=ZDAyZzhkeDR1cXFn" target="_blank" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#E4405F; text-decoration:none;">
+    <i class="fab fa-instagram"></i>
+  </a>
+  
+  <!-- Gmail -->
+  <a href="mailto:udgirbiryaniadda@gmail.com" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#D44638; text-decoration:none;">
+    <i class="fas fa-envelope"></i>
+  </a>
+  
+  <!-- WhatsApp -->
+  <a href="https://wa.me/919421229507" target="_blank" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#25D366; text-decoration:none;">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 </div>
-  <div id="popupMessage"
-     style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: #d32f2f; color: white; padding: 10px 20px; border-radius: 8px;
-            font-size: 16px; opacity: 0; transition: opacity 0.5s ease, bottom 0.5s ease;
-            z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+  <div id="popupMessage"
+     style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #d32f2f; color: white; padding: 10px 20px; border-radius: 8px;
+            font-size: 16px; opacity: 0; transition: opacity 0.5s ease, bottom 0.5s ease;
+            z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
 </div>
 <footer>
-  <p class="footer-blessing">आई भवानीची कृपा सदैव 🙏</p>
+  <p class="footer-blessing">आई भवानीची कृपा सदैव 🙏</p>
 </footer>
 
 </body>
