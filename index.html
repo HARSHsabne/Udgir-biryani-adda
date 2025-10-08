@@ -100,38 +100,16 @@
   </style>
 </head>
 <body>
-<!-- Compact Install App Popup -->
-<div id="pwa-install-popup" style="
-  display:none;
-  position: fixed; top: 10px; left: 50%; transform: translateX(-50%) scale(0.95);
-  background: #fff; color: #333;
-  border: 2px solid #d32f2f; border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  padding: 10px 15px;
-  text-align: left;
-  width: 88%; max-width: 320px;
-  font-family: system-ui, sans-serif;
-  transition: all 0.3s ease;
-  z-index: 9999;">
-  
-  <div style="display:flex; align-items:center; gap:10px;">
-    <img src="logo.png" alt="App Logo" style="width:38px; height:38px; border-radius:8px;">
-    <div style="flex:1;">
-      <p style="margin:0; font-weight:600; font-size:15px;">Install Udgir Biryani Adda</p>
-      <p style="margin:2px 0 0; font-size:13px; color:#666;">Get quick access anytime 🍗</p>
-    </div>
-    <button id="install-btn" style="
-      background:#d32f2f; color:white; border:none;
-      border-radius:6px; font-size:13px;
-      padding:6px 10px; cursor:pointer;">Install</button>
-  </div>
-
-  <button onclick="closePwaPopup()" 
-    style="position:absolute; top:5px; right:8px; background:none;
-    border:none; color:#999; font-size:16px; cursor:pointer;">✕</button>
+<!-- PWA Install Popup -->
+<div id="pwa-install-popup" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+     background: white; border: 2px solid #d32f2f; padding: 15px 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+     z-index: 9999; text-align: center;">
+  <button onclick="closePwaPopup()" style="position: absolute; top: 5px; right: 10px; background: none; border: none; color: #d32f2f; font-size: 18px; cursor: pointer;">✖</button>
+  <p style="margin: 0 0 10px 0; font-weight: bold; color: #d32f2f;">Install Udgir Biryani Adda App</p>
+  <button id="install-btn" style="background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
+    Install App
+  </button>
 </div>
-
-
 
 <header>
   <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
@@ -155,7 +133,7 @@
     <button onclick="addToOrder('Chicken Dum Biryani (Half)', 99)">Add to Order</button>
   </div>
 </div>
-<div class="order-form" id="order-section">
+<div class="order-form">
   <h2>Place Your Order</h2>
   <form id="orderForm">
     <label for="name">Name:</label>
@@ -176,7 +154,6 @@
   </form>
 </div>
 
-
 <div class="confirmation" id="confirmation">
   ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
 </div>
@@ -190,22 +167,20 @@ const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
   let item = orderItems.find(i => i.name === name);
+  
   if (item) {
     item.quantity += 1;
+    item.price = price; // update price if needed
   } else {
     item = { name, price, quantity: 1 };
     orderItems.push(item);
   }
 
   totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-
   updateOrderSummary();
-  updateCartCount();
 
-  showPopup(`✅ ${item.quantity} × ${name} added to order`);
+  showPopup(`${item.quantity} ${item.name} added`);
 }
-
-
 
 // Updated showPopup to handle success/error colors
 function showPopup(message, type = "success") {
@@ -267,6 +242,23 @@ function updateOrderSummary() {
     list.appendChild(row);
   });
 }
+
+function increaseQty(index) {
+  orderItems[index].quantity += 1;
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+}
+
+function decreaseQty(index) {
+  if (orderItems[index].quantity > 1) {
+    orderItems[index].quantity -= 1;
+  } else {
+    orderItems.splice(index, 1); // remove item if 0
+  }
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+}
+
 
 function captureLocation() {
   if (navigator.geolocation) {
@@ -367,56 +359,6 @@ document.getElementById('install-btn').addEventListener('click', async () => {
   document.getElementById('pwa-install-popup').style.display = 'none';
 }
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  const popup = document.getElementById('pwa-install-popup');
-  popup.style.display = 'block';
-  setTimeout(() => {
-    popup.style.transform = 'translateX(-50%) scale(1)';
-    popup.style.opacity = '1';
-  }, 100);
-});
-
-document.getElementById('install-btn').addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-
-    if (outcome === 'accepted') {
-      showPopup("🎉 App installed successfully!");
-    } else {
-      showPopup("❌ Installation canceled", "error");
-    }
-
-    document.getElementById('pwa-install-popup').style.display = 'none';
-    deferredPrompt = null;
-  }
-});
-
-// Close button
-function closePwaPopup() {
-  const popup = document.getElementById('pwa-install-popup');
-  popup.style.opacity = '0';
-  popup.style.transform = 'translateX(-50%) scale(0.95)';
-  setTimeout(() => popup.style.display = 'none', 500);
-}
-
-document.getElementById('install-btn').addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      console.log('User accepted the install prompt');
-      showPopup("🎉 App installed successfully!");
-    } else {
-      showPopup("❌ Installation dismissed", "error");
-    }
-    document.getElementById('pwa-install-popup').style.display = 'none';
-    deferredPrompt = null;
-  }
-});
 
 </script>
 <div class="contact-section" style="text-align:center; margin:30px 0;">
@@ -449,151 +391,6 @@ document.getElementById('install-btn').addEventListener('click', async () => {
 <footer>
   <p class="footer-blessing">आई भवानीची कृपा सदैव 🙏</p>
 </footer>
-  
-
-<!-- Floating View Order Button -->
-<div id="viewOrderBtn" class="view-order-btn">
-  🛒
-  <span id="cartCount">0</span>
-</div>
-
-<style>
-.view-order-btn {
-  position: fixed;
-  right: 20px;
-  bottom: 80px;
-  background-color: #d32f2f;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 26px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  cursor: pointer;
-  z-index: 9999;
-  transition: all 0.3s ease;
-}
-
-.view-order-btn:hover { background-color: #b71c1c; transform: scale(1.05); }
-
-.view-order-btn span {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background-color: #fff;
-  color: #d32f2f;
-  border-radius: 50%;
-  padding: 3px 7px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.show-btn { display: flex !important; animation: slideIn 0.3s ease; }
-@keyframes slideIn { from { opacity:0; transform: translateY(20px);} to {opacity:1; transform:translateY(0);} }
-
-.view-order-btn.bottom { bottom: 20px !important; }
- 
-  .view-order-btn {
-  transition: all 0.3s ease;
-}
-.view-order-btn.bottom {
-  bottom: 20px !important;
-}
-
-</style>
-
-<script>
-const viewBtn = document.getElementById("viewOrderBtn");
-const countSpan = document.getElementById("cartCount");
-let cartCount = 0;
-
-// Update cart count when item added
-function updateCartCount() {
-  cartCount = orderItems.reduce((sum, i) => sum + i.quantity, 0);
-  countSpan.textContent = cartCount;
-  if (cartCount > 0) viewBtn.classList.add("show-btn");
-  else viewBtn.classList.remove("show-btn");
-}
-
-function increaseQty(index) {
-  orderItems[index].quantity += 1;
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
-  updateCartCount(); // <--- add this
-}
-
-function increaseQty(index) {
-  orderItems[index].quantity += 1;
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
-  updateCartCount();
-  showPopup(`✅ ${orderItems[index].name} quantity increased`);
-}
-
-function decreaseQty(index) {
-  const itemName = orderItems[index].name;
-  if (orderItems[index].quantity > 1) {
-    orderItems[index].quantity -= 1;
-  } else {
-    orderItems.splice(index, 1);
-  }
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
-  updateCartCount();
-  showPopup(`✅ ${itemName} quantity updated`);
-}
-
-
-function adjustCartPosition() {
-  const installPopup = document.getElementById("pwa-install-popup");
-  const popupVisible = installPopup && window.getComputedStyle(installPopup).display !== "none";
-  if (popupVisible) {
-    viewBtn.classList.remove("bottom"); // move above popup
-  } else {
-    viewBtn.classList.add("bottom"); // bottom corner
-  }
-}
-setInterval(adjustCartPosition, 300);
-
-  let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault(); // Prevent the default prompt
-  deferredPrompt = e;
-
-  const popup = document.getElementById('pwa-install-popup');
-
-  // Delay showing popup by 3 seconds
-  setTimeout(() => {
-    popup.style.display = 'block';
-    popup.style.opacity = '0';
-    popup.style.transform = 'translateX(-50%) scale(0.95)';
-    popup.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-
-    // Fade in and scale up
-    setTimeout(() => {
-      popup.style.opacity = '1';
-      popup.style.transform = 'translateX(-50%) scale(1)';
-    }, 50);
-
-    // Auto-hide after 8 seconds
-    setTimeout(() => {
-      popup.style.opacity = '0';
-      popup.style.transform = 'translateX(-50%) scale(0.95)';
-      setTimeout(() => {
-        popup.style.display = 'none';
-      }, 500);
-    }, 8000);
-
-  }, 9000); // 3-second delay
-});
-
-</script>
-
 
 </body>
 </html>
