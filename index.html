@@ -155,7 +155,7 @@
     <button onclick="addToOrder('Chicken Dum Biryani (Half)', 99)">Add to Order</button>
   </div>
 </div>
-<<div class="order-form" id="order-section">
+<div class="order-form" id="order-section">
   <h2>Place Your Order</h2>
   <form id="orderForm">
     <label for="name">Name:</label>
@@ -517,13 +517,6 @@ function updateCartCount() {
   countSpan.textContent = cartCount;
   if (cartCount > 0) viewBtn.classList.add("show-btn");
   else viewBtn.classList.remove("show-btn");
-}
-
-function increaseQty(index) {
-  orderItems[index].quantity += 1;
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
-  updateCartCount(); // <--- add this
 }
 
 function increaseQty(index) {
