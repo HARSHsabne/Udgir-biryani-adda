@@ -353,6 +353,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
 
+  // Show the popup
   const popup = document.getElementById('pwa-install-popup');
   popup.style.display = 'block';
   setTimeout(() => {
@@ -361,37 +362,26 @@ window.addEventListener('beforeinstallprompt', (e) => {
   }, 100);
 });
 
+
 document.getElementById('install-btn').addEventListener('click', async () => {
   if (deferredPrompt) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') showPopup("🎉 App installed successfully!");
-    else showPopup("❌ Installation canceled", "error");
-    document.getElementById('pwa-install-popup').style.display = 'none';
-    deferredPrompt = null;
-  }
-});
 
-function closePwaPopup() {
-  const popup = document.getElementById('pwa-install-popup');
-  popup.style.opacity = '0';
-  setTimeout(() => popup.style.display = 'none', 200);
-}
-    const { outcome } = await deferredPrompt.userChoice;
-
-    if (outcome === 'accepted') {
-      console.log('User accepted the install prompt');
-    } else {
-      console.log('User dismissed the install prompt');
-    }
+    // Show popup message for feedback
+    showPopup(outcome === 'accepted' ? "🎉 App installed successfully!" : "❌ Installation canceled");
 
     // Hide the install popup
     document.getElementById('pwa-install-popup').style.display = 'none';
     deferredPrompt = null;
   }
 });
-  function closePwaPopup() {
-  document.getElementById('pwa-install-popup').style.display = 'none';
+
+
+function closePwaPopup() {
+  const popup = document.getElementById('pwa-install-popup');
+  popup.style.opacity = '0';
+  setTimeout(() => popup.style.display = 'none', 200);
 }
 
 
