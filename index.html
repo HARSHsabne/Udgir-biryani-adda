@@ -391,6 +391,18 @@ document.getElementById('install-btn').addEventListener('click', async () => {
 <footer>
   <p class="footer-blessing">आई भवानीची कृपा सदैव 🙏</p>
 </footer>
+  
+<button onclick="scrollToOrder()" 
+style="position:fixed; bottom:15px; left:50%; transform:translateX(-50%);
+background:#d32f2f; color:white; border:none; border-radius:30px;
+padding:12px 25px; font-size:16px; box-shadow:0 4px 8px rgba(0,0,0,0.3);
+z-index:9999;">🛒 View Order</button>
+
+<script>
+function scrollToOrder(){
+  document.querySelector('.order-form').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
 
 </body>
 </html>
