@@ -509,6 +509,14 @@ document.getElementById('install-btn').addEventListener('click', async () => {
 @keyframes slideIn { from { opacity:0; transform: translateY(20px);} to {opacity:1; transform:translateY(0);} }
 
 .view-order-btn.bottom { bottom: 20px !important; }
+ 
+  .view-order-btn {
+  transition: all 0.3s ease;
+}
+.view-order-btn.bottom {
+  bottom: 20px !important;
+}
+
 </style>
 
 <script>
@@ -557,13 +565,16 @@ viewBtn.addEventListener("click", () => {
   if (orderSection) orderSection.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-// Adjust position if install popup visible
 function adjustCartPosition() {
-  const installPopup = document.getElementById("pwa-install-popup");
-  if (installPopup && installPopup.style.display === "none") viewBtn.classList.add("bottom");
-  else viewBtn.classList.remove("bottom");
+  const installPopup = document.getElementById("pwa-install-popup");
+  const popupVisible = installPopup && window.getComputedStyle(installPopup).display !== "none";
+  if (popupVisible) {
+    viewBtn.classList.remove("bottom"); // move above popup
+  } else {
+    viewBtn.classList.add("bottom"); // bottom corner
+  }
 }
-setInterval(adjustCartPosition, 500);
+setInterval(adjustCartPosition, 300);
 </script>
 
 
