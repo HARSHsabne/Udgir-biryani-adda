@@ -189,20 +189,19 @@ const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
 
 function addToOrder(name, price) {
   let item = orderItems.find(i => i.name === name);
-  
   if (item) {
     item.quantity += 1;
-    item.price = price; // update price if needed
   } else {
-    item = { name, price, quantity: 1 };
-    orderItems.push(item);
+    orderItems.push({ name, price, quantity: 1 });
   }
 
   totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
 
-  showPopup(`${item.quantity} ${item.name} added`);
+  updateOrderSummary();
+  updateCartCount();
+  showPopup(`✅ ${item ? item.quantity : 1} × ${name} added to order`);
 }
+
 
 // Updated showPopup to handle success/error colors
 function showPopup(message, type = "success") {
@@ -532,15 +531,6 @@ function updateCartCount() {
   else viewBtn.classList.remove("show-btn");
 }
 
-// Call updateCartCount() whenever an item is added or quantity changed
-function addToOrder(name, price) {
-  let item = orderItems.find(i => i.name === name);
-  if (item) item.quantity += 1;
-  else orderItems.push({name, price, quantity:1});
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
-  updateCartCount();
-}
 function increaseQty(index) {
   orderItems[index].quantity += 1;
   totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
