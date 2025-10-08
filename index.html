@@ -1,246 +1,592 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Udgir Biryani Adda</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#d32f2f">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
-  
-<style>
-/* General Styles */
-body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff8f0; }
-header { text-align:center; padding:20px; background:#d32f2f; color:white; }
-header img.logo { width:60px; border-radius:10px; vertical-align:middle; }
-.contact-bar { text-align:center; margin:10px 0; font-size:16px; }
-.menu { display:flex; flex-wrap:wrap; justify-content:center; margin:20px; }
-.dish { background-color:#fff3e0; border-radius:10px; margin:10px; padding:15px; width:200px; text-align:center; box-shadow:0px 2px 5px rgba(0,0,0,0.2); }
-.dish img { width:100%; border-radius:10px; }
-.dish h3 { margin:10px 0 5px; }
-.dish p { margin:5px 0; }
-.dish button { background-color:#d32f2f; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; }
-.dish button:hover { background-color:#b71c1c; }
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Udgir Biryani Adda</title>
+  <style>
+    .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
+    .dish { background-color: #fff3e0; border-radius: 10px; margin: 10px; padding: 15px; width: 200px; text-align: center; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+    .dish img { width: 100%; border-radius: 10px; }
+    .dish h3 { margin: 10px 0 5px 0; }
+    .dish p { margin: 5px 0; }
+    .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+    .dish button:hover { background-color: #b71c1c; }
 
-/* Order Form */
-.order-form { max-width:400px; margin:20px auto; background-color:#ffe0b2; padding:20px; border-radius:10px; }
-.order-form h2 { text-align:center; }
-.order-form label { display:block; margin:10px 0 5px; }
-.order-form input, .order-form textarea { width:100%; padding:8px; border-radius:5px; border:1px solid #ccc; }
-.order-form button { margin-top:15px; width:100%; background-color:#d32f2f; color:white; border:none; padding:10px; border-radius:5px; font-size:16px; cursor:pointer; }
-.order-form button:hover { background-color:#b71c1c; }
+    .order-form { max-width: 400px; margin: 20px auto; background-color: #ffe0b2; padding: 20px; border-radius: 10px; }
+    .order-form h2 { text-align: center; }
+    .order-form label { display: block; margin: 10px 0 5px 0; }
+    .order-form input, .order-form textarea { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+    .order-form button { margin-top: 15px; width: 100%; background-color: #d32f2f; color: white; border: none; padding: 10px; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    .order-form button:hover { background-color: #b71c1c; }
 
-/* Location Button */
-.location-btn { background-color:#ff5722; color:white; border:none; padding:12px 20px; border-radius:8px; font-size:16px; cursor:pointer; margin-top:10px; width:100%; transition: background-color 0.3s, transform 0.2s; }
-.location-btn:hover { background-color:#e64a19; transform:scale(1.05); }
+    .location-btn {
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .location-btn:hover {
+      background-color: #e64a19;
+      transform: scale(1.05);
+    }
 
-/* Dynamic Order List */
-#dynamicOrderList { margin-top:15px; }
-#dynamicOrderList div { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-#dynamicOrderList div div { display:flex; align-items:center; gap:8px; }
-#dynamicOrderList button { width:32px; height:32px; font-size:18px; border-radius:5px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; transition:0.2s; }
-#dynamicOrderList button:hover { opacity:0.85; transform:scale(1.05); }
-#dynamicOrderList span { font-weight:600; min-width:24px; text-align:center; display:inline-block; }
+    .confirmation { text-align: center; color: green; font-weight: bold; margin: 20px 0; display: none; }
+    
+/* Dynamic order list container */
+#dynamicOrderList {
+  margin-top: 15px; /* gap from location button */
+}
 
-/* Confirmation */
-.confirmation { text-align:center; color:green; font-weight:bold; margin:20px 0; display:none; }
+/* Each item row */
+#dynamicOrderList div {
+  display: flex;
+  align-items: center; /* vertical alignment */
+  justify-content: space-between;
+  margin-bottom: 10px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-/* Floating Cart Button */
-.view-order-btn { position:fixed; right:20px; bottom:20px; background-color:#d32f2f; color:#fff; border:none; border-radius:50%; width:60px; height:60px; font-size:26px; display:none; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(0,0,0,0.3); cursor:pointer; z-index:9999; transition:all 0.3s ease; }
-.view-order-btn:hover { background-color:#b71c1c; transform:scale(1.05); }
-.view-order-btn span { position:absolute; top:6px; right:6px; background-color:#fff; color:#d32f2f; border-radius:50%; padding:3px 7px; font-size:14px; font-weight:bold; }
-.show-btn { display:flex !important; animation:slideIn 0.3s ease; }
-@keyframes slideIn { from { opacity:0; transform: translateY(20px);} to {opacity:1; transform:translateY(0);} }
+/* Quantity container */
+#dynamicOrderList div div {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between - , quantity, + */
+}
 
-/* PWA Install Popup */
-#pwa-install-popup { display:none; position: fixed; top:10px; left:50%; transform:translateX(-50%) scale(0.95); background:#fff; color:#333; border:2px solid #d32f2f; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.2); padding:10px 15px; text-align:left; width:88%; max-width:320px; font-family:system-ui, sans-serif; transition:all 0.3s ease; z-index:9999; }
-#pwa-install-popup button { cursor:pointer; }
-#popupMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #d32f2f; color: white; padding: 10px 20px; border-radius: 8px; font-size: 16px; opacity: 0; transition: opacity 0.5s ease, bottom 0.5s ease; z-index:1000; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-footer { text-align:center; margin:30px 0; font-size:16px; }
-.contact-section a { margin:10px; font-size:22px; text-decoration:none; }
-</style>
+/* + / - buttons */
+#dynamicOrderList button {
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: 0.2s;
+}
+
+#dynamicOrderList button:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+/* Quantity number */
+#dynamicOrderList span {
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+  display: inline-block;
+}
+
+
+  </style>
 </head>
-
 <body>
-<!-- PWA Install Popup -->
-<div id="pwa-install-popup">
-  <div style="display:flex; align-items:center; gap:10px;">
-    <img src="logo.png" alt="App Logo" style="width:38px; height:38px; border-radius:8px;">
-    <div style="flex:1;">
-      <p style="margin:0; font-weight:600; font-size:15px;">Install Udgir Biryani Adda</p>
-      <p style="margin:2px 0 0; font-size:13px; color:#666;">Get quick access anytime 🍗</p>
-    </div>
-    <button id="install-btn" style="background:#d32f2f; color:white; border:none; border-radius:6px; font-size:13px; padding:6px 10px;">Install</button>
-  </div>
-  <button onclick="closePwaPopup()" style="position:absolute; top:5px; right:8px; background:none; border:none; color:#999; font-size:16px;">✕</button>
+<!-- Compact Install App Popup -->
+<div id="pwa-install-popup" style="
+  display:none;
+  position: fixed; top: 10px; left: 50%; transform: translateX(-50%) scale(0.95);
+  background: #fff; color: #333;
+  border: 2px solid #d32f2f; border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  padding: 10px 15px;
+  text-align: left;
+  width: 88%; max-width: 320px;
+  font-family: system-ui, sans-serif;
+  transition: all 0.3s ease;
+  z-index: 9999;">
+  
+  <div style="display:flex; align-items:center; gap:10px;">
+    <img src="logo.png" alt="App Logo" style="width:38px; height:38px; border-radius:8px;">
+    <div style="flex:1;">
+      <p style="margin:0; font-weight:600; font-size:15px;">Install Udgir Biryani Adda</p>
+      <p style="margin:2px 0 0; font-size:13px; color:#666;">Get quick access anytime 🍗</p>
+    </div>
+    <button id="install-btn" style="
+      background:#d32f2f; color:white; border:none;
+      border-radius:6px; font-size:13px;
+      padding:6px 10px; cursor:pointer;">Install</button>
+  </div>
+
+  <button onclick="closePwaPopup()" 
+    style="position:absolute; top:5px; right:8px; background:none;
+    border:none; color:#999; font-size:16px; cursor:pointer;">✕</button>
 </div>
 
+
+
 <header>
-  <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
-  <h1>Udgir Biryani Adda</h1>
+  <img src="logo.png" alt="Udgir Biryani Adda Logo" class="logo">
+  <h1>Udgir Biryani Adda</h1>
 </header>
 
 <div class="contact-bar">
-  📞 <a href="tel:+919421229507">+91 94212 29507</a>
+  📞 <a href="tel:+919421229507">+91 94212 29507</a>
 </div>
-
 <div class="menu">
-  <div class="dish">
-    <img src="biryani.jpg" alt="Chicken Dum Biryani (Full)">
-    <h3>Chicken Dum Biryani (Full)</h3>
-    <p>₹149</p>
-    <button onclick="addToOrder('Chicken Dum Biryani (Full)',149)">Add to Order</button>
-  </div>
-  <div class="dish">
-    <img src="biryani_half.jpg" alt="Chicken Dum Biryani (Half)">
-    <h3>Chicken Dum Biryani (Half)</h3>
-    <p>₹99</p>
-    <button onclick="addToOrder('Chicken Dum Biryani (Half)',99)">Add to Order</button>
-  </div>
+  <div class="dish">
+    <img src="biryani.jpg" alt="Chicken Dum Biryani (Full)">
+    <h3>Chicken Dum Biryani (Full)</h3>
+    <p>₹149</p>
+    <button onclick="addToOrder('Chicken Dum Biryani (Full)', 149)">Add to Order</button>
+  </div>
+  <div class="dish">
+    <img src="biryani_half.jpg" alt="Chicken Dum Biryani (Half)">
+    <h3>Chicken Dum Biryani (Half)</h3>
+    <p>₹99</p>
+    <button onclick="addToOrder('Chicken Dum Biryani (Half)', 99)">Add to Order</button>
+  </div>
+</div>
+<div class="order-form" id="order-section">
+  <h2>Place Your Order</h2>
+  <form id="orderForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" required>
+
+    <label for="address">Delivery Address:</label>
+    <textarea id="address" rows="3" required></textarea>
+    <button type="button" class="location-btn" onclick="captureLocation()">📍 Use My Current Location</button>
+
+    <div id="dynamicOrderList"></div>
+    <label for="orderSummary">Your Order:</label>
+    <textarea id="orderSummary" rows="4" readonly></textarea>
+
+    <button type="submit">Send Order via WhatsApp</button>
+  </form>
 </div>
 
-<div class="order-form" id="order-section">
-  <h2>Place Your Order</h2>
-  <form id="orderForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" required>
-    <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" required>
-    <label for="address">Delivery Address:</label>
-    <textarea id="address" rows="3" required></textarea>
-    <button type="button" class="location-btn" onclick="captureLocation()">📍 Use My Current Location</button>
-    <div id="dynamicOrderList"><p style="text-align:center;">No items added yet.</p></div>
-    <label for="orderSummary">Your Order:</label>
-    <textarea id="orderSummary" rows="4" readonly></textarea>
-    <button type="submit">Send Order via WhatsApp</button>
-  </form>
-</div>
 
 <div class="confirmation" id="confirmation">
-  ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
+  ✅ Thank you! Your order has been sent to WhatsApp. We will contact you shortly.
 </div>
 
-<!-- Floating Cart Button -->
-<div id="viewOrderBtn" class="view-order-btn">🛒<span id="cartCount">0</span></div>
-
-<!-- Contact Section -->
-<div class="contact-section" style="text-align:center;">
-  <h3>📲 Connect with Us</h3>
-  <a href="https://www.instagram.com/udgirbiryaniadda" target="_blank" style="color:#E4405F;"><i class="fab fa-instagram"></i></a>
-  <a href="mailto:udgirbiryaniadda@gmail.com" style="color:#D44638;"><i class="fas fa-envelope"></i></a>
-  <a href="https://wa.me/919421229507" target="_blank" style="color:#25D366;"><i class="fab fa-whatsapp"></i></a>
-</div>
-
-<div id="popupMessage"></div>
-
-<footer>
-  <p class="footer-blessing">आई भवानीची कृपा सदैव 🙏</p>
-</footer>
-
-<script>
+<script> 
 const upiID = "YOURUPI@bank";
-const yourWhatsAppNumber = "919421229507";
 let orderItems = [];
 let totalPrice = 0;
 let liveLocationLink = '';
+const yourWhatsAppNumber = "919421229507"; // Your number to receive orders
+
+function addToOrder(name, price) {
+  let item = orderItems.find(i => i.name === name);
+  if (item) {
+    item.quantity += 1;
+  } else {
+    item = { name, price, quantity: 1 };
+    orderItems.push(item);
+  }
+
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  updateOrderSummary();
+  updateCartCount();
+
+  showPopup(`✅ ${item.quantity} × ${name} added to order`);
+}
+
+
+
+// Updated showPopup to handle success/error colors
+function showPopup(message, type = "success") {
+  const popup = document.getElementById('popupMessage');
+  popup.innerText = message;
+  popup.style.background = type === "success" ? "#4CAF50" : "#f44336"; // green or red
+
+  // show with animation
+  popup.style.opacity = "1";
+  popup.style.bottom = "40px";
+
+  // hide after 2s with fade out
+  setTimeout(() => {
+    popup.style.opacity = "0";
+    popup.style.bottom = "20px";
+  }, 2000);
+}
+
+
+function updateOrderSummary() {
+  const orderSummary = document.getElementById('orderSummary');
+  let summary = '';
+
+  // Text summary
+  orderItems.forEach((item, index) => {
+    summary += `${index + 1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
+  });
+  summary += `\nTotal: ₹${totalPrice}`;
+  orderSummary.value = summary;
+
+  // Update visible order list with + / - buttons
+  const list = document.getElementById('dynamicOrderList');
+  list.innerHTML = ''; // clear old list
+
+  if (orderItems.length === 0) {
+    list.innerHTML = '<p style="text-align:center;">No items added yet.</p>';
+    return;
+  }
+
+  orderItems.forEach((item, i) => {
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.alignItems = 'center';
+    row.style.justifyContent = 'space-between';
+    row.style.marginBottom = '10px';
+    row.style.background = '#fff';
+    row.style.padding = '10px';
+    row.style.borderRadius = '8px';
+    row.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+
+    row.innerHTML = `
+      <span style="flex:1;">${item.name}</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button style="background:#d32f2f;color:white;border:none;border-radius:5px;width:28px;height:28px;font-size:18px;" onclick="decreaseQty(${i})">–</button>
+        <span>${item.quantity}</span>
+        <button style="background:#43a047;color:white;border:none;border-radius:5px;width:28px;height:28px;font-size:18px;" onclick="increaseQty(${i})">+</button>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function captureLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
+        alert('Live location captured! You do not need to enter address manually.');
+        const addressField = document.getElementById('address');
+        addressField.value = '';
+        addressField.disabled = true;
+      },
+      () => {
+        alert('Could not get location. Please enable location services.');
+      }
+    );
+  } else {
+    alert('Geolocation is not supported by your browser.');
+  }
+}
+
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if(orderItems.length === 0){
+        alert('Please add at least one item to your order!');
+        return;
+    }
+
+    const customerName = document.getElementById('name').value;
+    const customerPhone = document.getElementById('phone').value;
+    const customerAddress = liveLocationLink || document.getElementById('address').value;
+
+    // Build order summary
+    let orderText = '';
+    orderItems.forEach((item,index)=>{
+        orderText += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
+    });
+    let totalAmount = totalPrice;
+
+    // UPI Payment Link
+    const upiLink = `upi://pay?pa=${upiID}&pn=UdgirBiryani&am=${totalAmount}&cu=INR`;
+
+    // WhatsApp message
+    let message = `🛒 *New Biryani Order*\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}\n\nOrder:\n${orderText}\nTotal: ₹${totalAmount}\n\n💳 *Payment Options*:\n1. COD (Cash on Delivery)\n2. Online Payment: ${upiLink}\n*Note:* If paid online, please send a screenshot along with this message.`;
+
+    // Open WhatsApp
+    window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
+
+    // Reset order
+    document.getElementById('confirmation').style.display = 'block';
+    orderItems = [];
+    totalPrice = 0;
+    liveLocationLink = '';
+    document.getElementById('address').disabled = false;
+    updateOrderSummary();
+    this.reset();
+});
+
+    if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").then(
+      (reg) => console.log("Service Worker registered:", reg),
+      (err) => console.log("Service Worker failed:", err)
+    );
+  });
+}
 let deferredPrompt;
 
-// Popup
-function showPopup(msg,type="success"){
-  const popup=document.getElementById('popupMessage');
-  popup.innerText=msg;
-  popup.style.background = type==="success"?"#4CAF50":"#f44336";
-  popup.style.opacity="1";
-  popup.style.bottom="40px";
-  setTimeout(()=>{popup.style.opacity="0"; popup.style.bottom="20px";},2000);
-}
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the default mini-infobar
+  e.preventDefault();
+  deferredPrompt = e;
 
-// Add to Order
-function addToOrder(name,price){
-  let item = orderItems.find(i=>i.name===name);
-  if(item) item.quantity+=1;
-  else orderItems.push({name,price,quantity:1});
-  totalPrice = orderItems.reduce((sum,i)=>sum+i.price*i.quantity,0);
-  updateOrderSummary();
-  updateCartCount();
-  showPopup(`✅ ${name} added`);
-}
-
-// Update Order List
-function updateOrderSummary(){
-  const orderSummary = document.getElementById('orderSummary');
-  let summary='';
-  orderItems.forEach((item,index)=>summary+=`${index+1}. ${item.name} ×${item.quantity} - ₹${item.price*item.quantity}\n`);
-  summary+=`\nTotal: ₹${totalPrice}`;
-  orderSummary.value = summary;
-
-  const list = document.getElementById('dynamicOrderList');
-  list.innerHTML='';
-  if(orderItems.length===0){ list.innerHTML='<p style="text-align:center;">No items added yet.</p>'; return; }
-  orderItems.forEach((item,i)=>{
-    const row = document.createElement('div');
-    row.innerHTML=`<span style="flex:1;">${item.name}</span>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <button style="background:#d32f2f;color:white;width:28px;height:28px;" onclick="decreaseQty(${i})">–</button>
-      <span>${item.quantity}</span>
-      <button style="background:#43a047;color:white;width:28px;height:28px;" onclick="increaseQty(${i})">+</button>
-    </div>`;
-    list.appendChild(row);
-  });
-}
-
-// Quantity Adjust
-function increaseQty(i){ orderItems[i].quantity+=1; totalPrice=orderItems.reduce((s,it)=>s+it.price*it.quantity,0); updateOrderSummary(); updateCartCount(); showPopup(`✅ ${orderItems[i].name} quantity increased`);}
-function decreaseQty(i){ const name=orderItems[i].name; if(orderItems[i].quantity>1) orderItems[i].quantity-=1; else orderItems.splice(i,1); totalPrice=orderItems.reduce((s,it)=>s+it.price*it.quantity,0); updateOrderSummary(); updateCartCount(); showPopup(`✅ ${name} quantity updated`);}
-
-// Cart Count & View Button
-const viewBtn=document.getElementById("viewOrderBtn");
-const countSpan=document.getElementById("cartCount");
-function updateCartCount(){ let count=orderItems.reduce((s,i)=>s+i.quantity,0); countSpan.textContent=count; if(count>0) viewBtn.classList.add("show-btn"); else viewBtn.classList.remove("show-btn"); }
-viewBtn.addEventListener('click',()=>document.getElementById('order-section').scrollIntoView({behavior:'smooth'}));
-
-// Capture Location
-function captureLocation(){
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(pos=>{
-      const lat=pos.coords.latitude, lon=pos.coords.longitude;
-      liveLocationLink=`https://www.google.com/maps?q=${lat},${lon}`;
-      alert('Live location captured!');
-      document.getElementById('address').value=''; document.getElementById('address').disabled=true;
-    }, ()=>alert('Enable location services.'));
-  }else alert('Geolocation not supported.');
-}
-
-// Order Submit
-document.getElementById('orderForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  if(orderItems.length===0){ alert('Add at least one item!'); return; }
-  const name=document.getElementById('name').value;
-  const phone=document.getElementById('phone').value;
-  const address=liveLocationLink || document.getElementById('address').value;
-  let orderText=''; orderItems.forEach((it,i)=>orderText+=`${i+1}. ${it.name} ×${it.quantity} - ₹${it.price*it.quantity}\n`);
-  const upiLink=`upi://pay?pa=${upiID}&pn=UdgirBiryani&am=${totalPrice}&cu=INR`;
-  const message=`🛒 *New Biryani Order*\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nOrder:\n${orderText}\nTotal: ₹${totalPrice}\n\n💳 Payment Options:\n1. COD\n2. Online Payment: ${upiLink}\nNote: If paid online, send screenshot.`;
-  window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`,'_blank');
-  document.getElementById('confirmation').style.display='block';
-  orderItems=[]; totalPrice=0; liveLocationLink=''; document.getElementById('address').disabled=false;
-  updateOrderSummary(); updateCartCount(); this.reset();
+  // Show custom install popup
+  const popup = document.getElementById('pwa-install-popup');
+  popup.style.display = 'block';
 });
 
-// PWA Install
-window.addEventListener('beforeinstallprompt', e=>{
-  e.preventDefault(); deferredPrompt=e;
-  const popup=document.getElementById('pwa-install-popup'); popup.style.display='block';
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
+    }
+
+    // Hide the install popup
+    document.getElementById('pwa-install-popup').style.display = 'none';
+    deferredPrompt = null;
+  }
 });
-document.getElementById('install-btn').addEventListener('click', async ()=>{
-  if(deferredPrompt){ deferredPrompt.prompt(); const {outcome}=await deferredPrompt.userChoice;
-    if(outcome==='accepted') showPopup("🎉 App installed successfully!"); else showPopup("❌ Installation canceled","error");
-    document.getElementById('pwa-install-popup').style.display='none'; deferredPrompt=null;
-  }
+  function closePwaPopup() {
+  document.getElementById('pwa-install-popup').style.display = 'none';
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  const popup = document.getElementById('pwa-install-popup');
+  popup.style.display = 'block';
+  setTimeout(() => {
+    popup.style.transform = 'translateX(-50%) scale(1)';
+    popup.style.opacity = '1';
+  }, 100);
 });
-function closePwaPopup(){ const popup=document.getElementById('pwa-install-popup'); popup.style.opacity='0'; popup.style.transform='translateX(-50%) scale(0.95)'; setTimeout(()=>popup.style.display='none',500);}
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === 'accepted') {
+      showPopup("🎉 App installed successfully!");
+    } else {
+      showPopup("❌ Installation canceled", "error");
+    }
+
+    document.getElementById('pwa-install-popup').style.display = 'none';
+    deferredPrompt = null;
+  }
+});
+
+// Close button
+function closePwaPopup() {
+  const popup = document.getElementById('pwa-install-popup');
+  popup.style.opacity = '0';
+  popup.style.transform = 'translateX(-50%) scale(0.95)';
+  setTimeout(() => popup.style.display = 'none', 500);
+}
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+      showPopup("🎉 App installed successfully!");
+    } else {
+      showPopup("❌ Installation dismissed", "error");
+    }
+    document.getElementById('pwa-install-popup').style.display = 'none';
+    deferredPrompt = null;
+  }
+});
+
 </script>
+<div class="contact-section" style="text-align:center; margin:30px 0;">
+  <h3>📲 Connect with Us</h3>
+  
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/udgirbiryaniadda?igsh=ZDAyZzhkeDR1cXFn" target="_blank" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#E4405F; text-decoration:none;">
+    <i class="fab fa-instagram"></i>
+  </a>
+  
+  <!-- Gmail -->
+  <a href="mailto:udgirbiryaniadda@gmail.com" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#D44638; text-decoration:none;">
+    <i class="fas fa-envelope"></i>
+  </a>
+  
+  <!-- WhatsApp -->
+  <a href="https://wa.me/919421229507" target="_blank" 
+     style="display:inline-block; margin:10px; font-size:22px; color:#25D366; text-decoration:none;">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+  <div id="popupMessage"
+     style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #d32f2f; color: white; padding: 10px 20px; border-radius: 8px;
+            font-size: 16px; opacity: 0; transition: opacity 0.5s ease, bottom 0.5s ease;
+            z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+</div>
+<footer>
+  <p class="footer-blessing">आई भवानीची कृपा सदैव 🙏</p>
+</footer>
+  
+
+<!-- Floating View Order Button -->
+<div id="viewOrderBtn" class="view-order-btn">
+  🛒
+  <span id="cartCount">0</span>
+</div>
+
+<style>
+.view-order-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+  background-color: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 26px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  cursor: pointer;
+  z-index: 9999;
+  transition: all 0.3s ease;
+}
+
+.view-order-btn:hover { background-color: #b71c1c; transform: scale(1.05); }
+
+.view-order-btn span {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: #fff;
+  color: #d32f2f;
+  border-radius: 50%;
+  padding: 3px 7px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.show-btn { display: flex !important; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity:0; transform: translateY(20px);} to {opacity:1; transform:translateY(0);} }
+
+.view-order-btn.bottom { bottom: 20px !important; }
+ 
+  .view-order-btn {
+  transition: all 0.3s ease;
+}
+.view-order-btn.bottom {
+  bottom: 20px !important;
+}
+
+</style>
+
+<script>
+const viewBtn = document.getElementById("viewOrderBtn");
+const countSpan = document.getElementById("cartCount");
+let cartCount = 0;
+
+// Update cart count when item added
+function updateCartCount() {
+  cartCount = orderItems.reduce((sum, i) => sum + i.quantity, 0);
+  countSpan.textContent = cartCount;
+  if (cartCount > 0) viewBtn.classList.add("show-btn");
+  else viewBtn.classList.remove("show-btn");
+}
+
+function increaseQty(index) {
+  orderItems[index].quantity += 1;
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+  updateCartCount();
+  showPopup(`✅ ${orderItems[index].name} quantity increased`);
+}
+
+function decreaseQty(index) {
+  const itemName = orderItems[index].name;
+  if (orderItems[index].quantity > 1) {
+    orderItems[index].quantity -= 1;
+  } else {
+    orderItems.splice(index, 1);
+  }
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+  updateCartCount();
+  showPopup(`✅ ${itemName} quantity updated`);
+}
+
+
+function adjustCartPosition() {
+  const installPopup = document.getElementById("pwa-install-popup");
+  const popupVisible = installPopup && window.getComputedStyle(installPopup).display !== "none";
+  if (popupVisible) {
+    viewBtn.classList.remove("bottom"); // move above popup
+  } else {
+    viewBtn.classList.add("bottom"); // bottom corner
+  }
+}
+setInterval(adjustCartPosition, 300);
+
+  let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); // Prevent the default prompt
+  deferredPrompt = e;
+
+  const popup = document.getElementById('pwa-install-popup');
+
+  // Delay showing popup by 3 seconds
+  setTimeout(() => {
+    popup.style.display = 'block';
+    popup.style.opacity = '0';
+    popup.style.transform = 'translateX(-50%) scale(0.95)';
+    popup.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+    // Fade in and scale up
+    setTimeout(() => {
+      popup.style.opacity = '1';
+      popup.style.transform = 'translateX(-50%) scale(1)';
+    }, 50);
+
+    // Auto-hide after 8 seconds
+    setTimeout(() => {
+      popup.style.opacity = '0';
+      popup.style.transform = 'translateX(-50%) scale(0.95)';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 500);
+    }, 8000);
+
+  }, 9000); // 3-second delay
+});
+
+</script>
+
 
 </body>
 </html>
