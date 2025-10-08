@@ -458,25 +458,27 @@ document.getElementById('install-btn').addEventListener('click', async () => {
 </footer>
   
 <!-- Floating View Order Button -->
-<button id="viewOrderBtn" class="view-order-btn">
-  🛒 <span id="cartCount">0</span>
-</button>
+<div id="viewOrderBtn" class="view-order-btn">
+  🛒
+  <span id="cartCount">0</span>
+</div>
 
 <style>
-/* Floating Cart Button */
+/* Floating Circular Cart Button */
 .view-order-btn {
   position: fixed;
   right: 20px;
-  bottom: 80px; /* above install popup */
+  bottom: 80px; /* Above install popup */
   background-color: #d32f2f;
   color: #fff;
   border: none;
-  border-radius: 50px;
-  padding: 10px 16px;
-  font-size: 18px;
-  display: none; /* hidden by default */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 26px;
+  display: none; /* Hidden by default */
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -488,16 +490,22 @@ document.getElementById('install-btn').addEventListener('click', async () => {
   transform: scale(1.05);
 }
 
+/* Cart Count Badge */
 .view-order-btn span {
+  position: absolute;
+  top: 6px;
+  right: 6px;
   background-color: #fff;
   color: #d32f2f;
   border-radius: 50%;
-  padding: 2px 6px;
+  padding: 3px 7px;
   font-size: 14px;
   font-weight: bold;
+  line-height: 1;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* Smooth slide-in */
+/* Animation */
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -507,7 +515,7 @@ document.getElementById('install-btn').addEventListener('click', async () => {
   animation: slideIn 0.3s ease;
 }
 
-/* When install popup not visible, move to bottom */
+/* Move lower when install popup hidden */
 .view-order-btn.bottom {
   bottom: 20px !important;
 }
@@ -518,7 +526,7 @@ let cartCount = 0;
 const viewBtn = document.getElementById("viewOrderBtn");
 const countSpan = document.getElementById("cartCount");
 
-/* Function to add item to cart */
+/* Add to cart function */
 function addToCart() {
   cartCount++;
   countSpan.textContent = cartCount;
@@ -539,9 +547,9 @@ viewBtn.addEventListener("click", () => {
   }
 });
 
-/* Adjust button position if install popup is hidden */
+/* Adjust position based on install popup visibility */
 function adjustCartPosition() {
-  const installPopup = document.querySelector("#installPopup"); // update ID if needed
+  const installPopup = document.querySelector("#installPopup"); // Change if your ID differs
   if (installPopup && installPopup.style.display === "none") {
     viewBtn.classList.add("bottom");
   } else {
