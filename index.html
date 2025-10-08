@@ -457,16 +457,66 @@ document.getElementById('install-btn').addEventListener('click', async () => {
   <p class="footer-blessing">आई भवानीची कृपा सदैव 🙏</p>
 </footer>
   
-<button onclick="scrollToOrder()" 
-style="position:fixed; bottom:15px; left:50%; transform:translateX(-50%);
-background:#d32f2f; color:white; border:none; border-radius:30px;
-padding:12px 25px; font-size:16px; box-shadow:0 4px 8px rgba(0,0,0,0.3);
-z-index:9999;">🛒 View Order</button>
+<!-- Floating View Order Button -->
+<button id="viewOrderBtn" class="view-order-btn">
+  🛒
+</button>
+
+<style>
+/* Floating Cart Button Style */
+.view-order-btn {
+  position: fixed;
+  bottom: 80px; /* stays above install popup */
+  right: 20px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 22px;
+  display: none; /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.view-order-btn:hover {
+  background-color: #b71c1c;
+  transform: scale(1.05);
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.show-btn {
+  display: flex !important;
+  animation: slideIn 0.3s ease;
+}
+</style>
 
 <script>
-function scrollToOrder(){
-  document.querySelector('.order-form').scrollIntoView({ behavior: 'smooth' });
+// Simulate when to show the cart button (replace this with your real logic)
+function showCartButton() {
+  const btn = document.getElementById('viewOrderBtn');
+  btn.classList.add('show-btn');
 }
+
+// Example: Show button when item is added to cart
+// call showCartButton() after user adds an item
+// Example:
+setTimeout(showCartButton, 2000); // demo purpose
+
+// On click: scroll to order or open cart section
+document.getElementById('viewOrderBtn').addEventListener('click', () => {
+  // Scroll to cart section or open popup
+  document.querySelector('#order-section')?.scrollIntoView({ behavior: 'smooth' });
+});
 </script>
 
 </body>
