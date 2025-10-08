@@ -459,26 +459,25 @@ document.getElementById('install-btn').addEventListener('click', async () => {
   
 <!-- Floating View Order Button -->
 <button id="viewOrderBtn" class="view-order-btn">
-  🛒
+  🛒 <span id="cartCount">0</span>
 </button>
 
 <style>
-/* Floating Cart Button Style */
+/* Floating Cart Button */
 .view-order-btn {
   position: fixed;
-  bottom: 80px; /* stays above install popup */
   right: 20px;
+  bottom: 80px; /* above install popup */
   background-color: #d32f2f;
-  color: white;
+  color: #fff;
   border: none;
-  border-radius: 50%;
-  width: 55px;
-  height: 55px;
-  font-size: 22px;
+  border-radius: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
   display: none; /* hidden by default */
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 9999;
@@ -489,35 +488,69 @@ document.getElementById('install-btn').addEventListener('click', async () => {
   transform: scale(1.05);
 }
 
-/* Slide-in animation */
+.view-order-btn span {
+  background-color: #fff;
+  color: #d32f2f;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Smooth slide-in */
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .show-btn {
   display: flex !important;
   animation: slideIn 0.3s ease;
 }
+
+/* When install popup not visible, move to bottom */
+.view-order-btn.bottom {
+  bottom: 20px !important;
+}
 </style>
 
 <script>
-// Simulate when to show the cart button (replace this with your real logic)
-function showCartButton() {
-  const btn = document.getElementById('viewOrderBtn');
-  btn.classList.add('show-btn');
+let cartCount = 0;
+const viewBtn = document.getElementById("viewOrderBtn");
+const countSpan = document.getElementById("cartCount");
+
+/* Function to add item to cart */
+function addToCart() {
+  cartCount++;
+  countSpan.textContent = cartCount;
+  if (!viewBtn.classList.contains("show-btn")) {
+    viewBtn.classList.add("show-btn");
+  }
 }
 
-// Example: Show button when item is added to cart
-// call showCartButton() after user adds an item
-// Example:
-setTimeout(showCartButton, 2000); // demo purpose
+/* Example demo — remove in real site */
+setTimeout(addToCart, 2000);
+setTimeout(addToCart, 4000);
 
-// On click: scroll to order or open cart section
-document.getElementById('viewOrderBtn').addEventListener('click', () => {
-  // Scroll to cart section or open popup
-  document.querySelector('#order-section')?.scrollIntoView({ behavior: 'smooth' });
+/* On click: scroll smoothly to order section */
+viewBtn.addEventListener("click", () => {
+  const orderSection = document.querySelector("#order-section");
+  if (orderSection) {
+    orderSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 });
+
+/* Adjust button position if install popup is hidden */
+function adjustCartPosition() {
+  const installPopup = document.querySelector("#installPopup"); // update ID if needed
+  if (installPopup && installPopup.style.display === "none") {
+    viewBtn.classList.add("bottom");
+  } else {
+    viewBtn.classList.remove("bottom");
+  }
+}
+setInterval(adjustCartPosition, 1000);
 </script>
+
 
 </body>
 </html>
