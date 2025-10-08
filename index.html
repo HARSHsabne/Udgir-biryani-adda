@@ -356,22 +356,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
 }
 let deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  // Show the popup
-  const popup = document.getElementById('pwa-install-popup');
-  popup.style.display = 'block';
-  setTimeout(() => {
-    popup.style.transform = 'translateX(-50%) scale(1)';
-    popup.style.opacity = '1';
-  }, 100);
-});
-
-
-let deferredPrompt;
-
+// Show popup when app becomes installable
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
@@ -384,7 +369,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   }, 100);
 });
 
-// Wait until DOM is ready
+// Wait until DOM is ready, then hook install button
 window.addEventListener('DOMContentLoaded', () => {
   const installBtn = document.getElementById('install-btn');
   if (installBtn) {
@@ -393,9 +378,11 @@ window.addEventListener('DOMContentLoaded', () => {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
 
-        showPopup(outcome === 'accepted'
-          ? "🎉 App installed successfully!"
-          : "❌ Installation canceled");
+        showPopup(
+          outcome === 'accepted'
+            ? "🎉 App installed successfully!"
+            : "❌ Installation canceled"
+        );
 
         document.getElementById('pwa-install-popup').style.display = 'none';
         deferredPrompt = null;
@@ -404,12 +391,11 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-
-
+// Close popup manually
 function closePwaPopup() {
   const popup = document.getElementById('pwa-install-popup');
   popup.style.opacity = '0';
-  setTimeout(() => popup.style.display = 'none', 200);
+  setTimeout(() => (popup.style.display = 'none'), 200);
 }
 
 
