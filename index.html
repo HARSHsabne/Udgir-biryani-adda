@@ -193,15 +193,18 @@ function addToOrder(name, price) {
   if (item) {
     item.quantity += 1;
   } else {
-    orderItems.push({ name, price, quantity: 1 });
+    item = { name, price, quantity: 1 };
+    orderItems.push(item);
   }
 
   totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   updateOrderSummary();
   updateCartCount();
-  showPopup(`✅ ${item ? item.quantity : 1} × ${name} added to order`);
+
+  showPopup(`✅ ${item.quantity} × ${name} added to order`);
 }
+
 
 
 // Updated showPopup to handle success/error colors
@@ -264,23 +267,6 @@ function updateOrderSummary() {
     list.appendChild(row);
   });
 }
-
-function increaseQty(index) {
-  orderItems[index].quantity += 1;
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
-}
-
-function decreaseQty(index) {
-  if (orderItems[index].quantity > 1) {
-    orderItems[index].quantity -= 1;
-  } else {
-    orderItems.splice(index, 1); // remove item if 0
-  }
-  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  updateOrderSummary();
-}
-
 
 function captureLocation() {
   if (navigator.geolocation) {
@@ -540,22 +526,27 @@ function increaseQty(index) {
   updateCartCount(); // <--- add this
 }
 
+function increaseQty(index) {
+  orderItems[index].quantity += 1;
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+  updateCartCount();
+  showPopup(`✅ ${orderItems[index].name} quantity increased`);
+}
+
 function decreaseQty(index) {
+  const itemName = orderItems[index].name;
   if (orderItems[index].quantity > 1) {
     orderItems[index].quantity -= 1;
   } else {
-    orderItems.splice(index, 1); // remove item if 0
+    orderItems.splice(index, 1);
   }
   totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
   updateOrderSummary();
-  updateCartCount(); // <--- add this
+  updateCartCount();
+  showPopup(`✅ ${itemName} quantity updated`);
 }
 
-// On click: scroll to order section
-viewBtn.addEventListener("click", () => {
-  const orderSection = document.getElementById("order-section");
-  if (orderSection) orderSection.scrollIntoView({ behavior: "smooth", block: "start" });
-});
 
 function adjustCartPosition() {
   const installPopup = document.getElementById("pwa-install-popup");
