@@ -533,6 +533,23 @@ function addToOrder(name, price) {
   updateOrderSummary();
   updateCartCount();
 }
+function increaseQty(index) {
+  orderItems[index].quantity += 1;
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+  updateCartCount(); // <--- add this
+}
+
+function decreaseQty(index) {
+  if (orderItems[index].quantity > 1) {
+    orderItems[index].quantity -= 1;
+  } else {
+    orderItems.splice(index, 1); // remove item if 0
+  }
+  totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  updateOrderSummary();
+  updateCartCount(); // <--- add this
+}
 
 // On click: scroll to order section
 viewBtn.addEventListener("click", () => {
