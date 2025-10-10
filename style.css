@@ -1,17 +1,24 @@
-/* Reset body */
-body {
+/* Reset everything */
+html, body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Layout fix: footer always at bottom, no blank gap */
+body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  position: relative;
 }
 
-/* Full-width Header with Logo + Title in One Line */
+/* Header */
 header {
   width: 100%;
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -19,6 +26,7 @@ header {
   color: white;
   padding: 15px 20px;
   gap: 15px;
+  box-sizing: border-box;
 }
 
 .logo {
@@ -26,14 +34,13 @@ header {
   width: auto;
 }
 
-/* Style for the heading inside header */
 header h1 {
   font-size: 24px;
   margin: 0;
   white-space: nowrap;
 }
 
-/* Contact Bar Full Width */
+/* Contact Bar */
 .contact-bar {
   width: 100%;
   background-color: #ffcdd2;
@@ -53,7 +60,7 @@ header h1 {
   text-decoration: underline;
 }
 
-/* Footer always at bottom */
+/* Footer fix */
 footer {
   background-color: #d32f2f;
   color: white;
@@ -61,21 +68,25 @@ footer {
   padding: 15px 10px;
   width: 100%;
   box-sizing: border-box;
-  margin-top: auto; /* pushes footer to bottom */
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
-/* Prevent extra white space or scroll */
-html, body {
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-/* Prevent popup from affecting page layout */
+/* Popup message stays fixed and doesn’t create scroll */
 #popupMessage {
-  position: fixed;
-  bottom: 20px;
+  position: fixed !important;
+  bottom: 20px !important;
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
+  pointer-events: none;
+}
+
+/* Optional safety rule: hide any stray white gap */
+body::after {
+  content: "";
+  display: block;
+  height: 0;
+  margin: 0;
+  padding: 0;
 }
