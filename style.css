@@ -60,3 +60,35 @@ footer {
   padding: 15px 10px;
   margin-top: 40px;
 }
+/* --- Fix for blank space at bottom --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Keep footer naturally at bottom, remove blank space */
+footer {
+  margin-top: auto;  /* replaces static margin-top */
+  background-color: #d32f2f;
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Prevent the popup from increasing scroll height */
+#popupMessage {
+  position: fixed;
+  bottom: 20px;  /* visible zone */
+  left: 50%;
+  transform: translateX(-50%);
+}
