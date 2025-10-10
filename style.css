@@ -1,92 +1,62 @@
-/* Reset everything */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-x: hidden;
-}
-
-/* Layout fix: footer always at bottom, no blank gap */
+/* Reset body */
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  position: relative;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-/* Header */
+/* Full-width Header with Logo + Title in One Line */
 header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  background-color: #d32f2f;
-  color: white;
-  padding: 15px 20px;
-  gap: 15px;
-  box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align logo + text from left */
+  background-color: #d32f2f;
+  color: white;
+  padding: 15px 20px;
+  gap: 15px;
 }
 
 .logo {
-  height: 70px;
-  width: auto;
+  height: 70px;
+  width: auto;
 }
 
+/* Style for the heading inside header */
 header h1 {
-  font-size: 24px;
-  margin: 0;
-  white-space: nowrap;
+  font-size: 24px;
+  margin: 0;
+  white-space: nowrap; /* Prevent title from wrapping */
 }
 
-/* Contact Bar */
+/* Contact Bar Full Width */
 .contact-bar {
-  width: 100%;
-  background-color: #ffcdd2;
-  text-align: center;
-  padding: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  box-sizing: border-box;
+  width: 100%;
+  background-color: #ffcdd2;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  box-sizing: border-box;
 }
 
 .contact-bar a {
-  color: #b71c1c;
-  text-decoration: none;
+  color: #b71c1c;
+  text-decoration: none;
 }
 
 .contact-bar a:hover {
-  text-decoration: underline;
+  text-decoration: underline;
 }
 
-/* Footer fix */
+/* Footer Full Width */
 footer {
-  background-color: #d32f2f;
-  color: white;
-  text-align: center;
-  padding: 15px 10px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: auto;
-  flex-shrink: 0;
-}
-
-/* Popup message stays fixed and doesn’t create scroll */
-#popupMessage {
-  position: fixed !important;
-  bottom: 20px !important;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  pointer-events: none;
-}
-
-/* Optional safety rule: hide any stray white gap */
-body::after {
-  content: "";
-  display: block;
-  height: 0;
-  margin: 0;
-  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #d32f2f;
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  margin-top: 40px;
 }
