@@ -3,6 +3,9 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Full-width Header with Logo + Title in One Line */
@@ -11,7 +14,7 @@ header {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Align logo + text from left */
+  justify-content: flex-start;
   background-color: #d32f2f;
   color: white;
   padding: 15px 20px;
@@ -27,7 +30,7 @@ header {
 header h1 {
   font-size: 24px;
   margin: 0;
-  white-space: nowrap; /* Prevent title from wrapping */
+  white-space: nowrap;
 }
 
 /* Contact Bar Full Width */
@@ -50,45 +53,29 @@ header h1 {
   text-decoration: underline;
 }
 
-/* Footer Full Width */
+/* Footer always at bottom */
 footer {
-  width: 100%;
-  box-sizing: border-box;
   background-color: #d32f2f;
   color: white;
   text-align: center;
   padding: 15px 10px;
-  margin-top: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto; /* pushes footer to bottom */
 }
-/* --- Fix for blank space at bottom --- */
+
+/* Prevent extra white space or scroll */
 html, body {
-  margin: 0;
-  padding: 0;
   height: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Keep footer naturally at bottom, remove blank space */
-footer {
-  margin-top: auto;  /* replaces static margin-top */
-  background-color: #d32f2f;
-  color: white;
-  text-align: center;
-  padding: 15px 10px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Prevent the popup from increasing scroll height */
+/* Prevent popup from affecting page layout */
 #popupMessage {
   position: fixed;
-  bottom: 20px;  /* visible zone */
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 9999;
 }
