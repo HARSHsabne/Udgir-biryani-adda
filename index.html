@@ -10,32 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Udgir Biryani Adda</title>
   <style>
-    .menu {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.dish {
-  background-color: #fff3e0;
-  border-radius: 15px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0px 3px 6px rgba(0,0,0,0.15);
-  transition: transform 0.2s;
-}
-
-.dish:hover {
-  transform: scale(1.02);
-}
-
-.dish img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 12px;
-}
+    .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
+    .dish { background-color: #fff3e0; border-radius: 10px; margin: 10px; padding: 15px; width: 200px; text-align: center; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+    .dish img { width: 100%; border-radius: 10px; }
     .dish h3 { margin: 10px 0 5px 0; }
     .dish p { margin: 5px 0; }
     .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
