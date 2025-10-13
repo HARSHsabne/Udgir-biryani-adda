@@ -34,6 +34,9 @@
         <input id="name" type="text" placeholder="Customer Name" class="w-full border rounded-lg p-2">
         <input id="number" type="tel" placeholder="WhatsApp Number (with country code, e.g. 919876543210)" class="w-full border rounded-lg p-2">
 
+        <!-- Quantity -->
+        <input id="quantity" type="number" min="1" placeholder="Quantity" value="1" class="w-full border rounded-lg p-2">
+
         <!-- Order Options -->
         <select id="orderSelect" class="w-full border rounded-lg p-2">
           <option value="">Select Order</option>
@@ -49,7 +52,7 @@
     </div>
 
     <!-- Orders Table -->
-    <div class="bg-white shadow-md rounded-2xl p-6 w-full max-w-4xl">
+    <div class="bg-white shadow-md rounded-2xl p-6 w-full max-w-5xl">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-semibold text-gray-800">Orders</h2>
         <button id="clearAll" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
@@ -64,6 +67,7 @@
               <th class="py-2 px-3">Name</th>
               <th class="py-2 px-3">Number</th>
               <th class="py-2 px-3">Order</th>
+              <th class="py-2 px-3">Qty</th>
               <th class="py-2 px-3 text-center">Actions</th>
             </tr>
           </thead>
@@ -87,6 +91,7 @@
       if (passwordInput.value === correctPassword) {
         loginScreen.style.display = 'none';
         adminPanel.style.display = 'flex';
+        loadOrders(); // load saved orders
       } else {
         errorMsg.classList.remove('hidden');
       }
@@ -102,70 +107,88 @@
     const clearAllBtn = document.getElementById('clearAll');
     const orderSelect = document.getElementById('orderSelect');
     const customOrder = document.getElementById('customOrder');
+    const quantityInput = document.getElementById('quantity');
 
-    // Show custom order box only if "custom" selected
     orderSelect.addEventListener('change', () => {
-      if (orderSelect.value === 'custom') {
-        customOrder.classList.remove('hidden');
-      } else {
-        customOrder.classList.add('hidden');
-      }
+      customOrder.classList.toggle('hidden', orderSelect.value !== 'custom');
     });
 
-    addOrderBtn.addEventListener('click', () => {
-      const name = document.getElementById('name').value.trim();
-      const number = document.getElementById('number').value.trim();
-      let order = orderSelect.value;
+    function saveOrders() {
+      const rows = Array.from(orderList.children).map(row => {
+        const cells = row.querySelectorAll('td');
+        return {
+          name: cells[0].textContent,
+          number: cells[1].textContent,
+          order: cells[2].textContent,
+          quantity: cells[3].textContent
+        };
+      });
+      localStorage.setItem('orders', JSON.stringify(rows));
+    }
 
-      if (order === 'custom') order = customOrder.value.trim();
+    function loadOrders() {
+      const saved = JSON.parse(localStorage.getItem('orders') || '[]');
+      orderList.innerHTML = '';
+      saved.forEach(o => addOrderToTable(o.name, o.number, o.order, o.quantity, false));
+    }
 
-      if (!name || !number || !order) {
-        alert('Please fill all fields!');
-        return;
-      }
-
+    function addOrderToTable(name, number, order, quantity, save = true) {
       const tr = document.createElement('tr');
       tr.classList.add('border-b');
       tr.innerHTML = `
         <td class="py-2 px-3">${name}</td>
         <td class="py-2 px-3">${number}</td>
         <td class="py-2 px-3">${order}</td>
+        <td class="py-2 px-3 text-center">${quantity}</td>
         <td class="py-2 px-3 text-center space-x-2">
           <button class="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600"
-            onclick="sendWhatsApp('${name}', '${number}', '${order}')">Send</button>
+            onclick="sendWhatsApp('${name}', '${number}', '${order}', '${quantity}')">Send</button>
           <button class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600"
             onclick="deleteOrder(this)">Delete</button>
         </td>
       `;
-
       orderList.appendChild(tr);
+      if (save) saveOrders();
+    }
 
-      // Reset form
+    addOrderBtn.addEventListener('click', () => {
+      const name = document.getElementById('name').value.trim();
+      const number = document.getElementById('number').value.trim();
+      let order = orderSelect.value;
+      const quantity = quantityInput.value || "1";
+
+      if (order === 'custom') order = customOrder.value.trim();
+      if (!name || !number || !order) {
+        alert('Please fill all fields!');
+        return;
+      }
+
+      addOrderToTable(name, number, order, quantity);
       document.getElementById('name').value = '';
       document.getElementById('number').value = '';
       orderSelect.value = '';
       customOrder.value = '';
       customOrder.classList.add('hidden');
+      quantityInput.value = 1;
     });
 
-    // WhatsApp message
-    function sendWhatsApp(name, number, order) {
-      const message = `Hello ${name}, your order for ${order} is confirmed! 🍗 Thank you for choosing Udgir Biryani Adda.`;
+    function sendWhatsApp(name, number, order, quantity) {
+      const message = `Hello ${name}, your order for ${order} (Qty: ${quantity}) is confirmed! 🍗 Thank you for choosing Udgir Biryani Adda.`;
       const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
       window.open(url, '_blank');
     }
 
-    // Delete one order
     function deleteOrder(btn) {
       if (confirm('Delete this order?')) {
         btn.closest('tr').remove();
+        saveOrders();
       }
     }
 
-    // Clear all orders
     clearAllBtn.addEventListener('click', () => {
       if (confirm('Are you sure you want to clear all orders?')) {
         orderList.innerHTML = '';
+        localStorage.removeItem('orders');
       }
     });
   </script>
