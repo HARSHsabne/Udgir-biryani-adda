@@ -1,102 +1,67 @@
-/* ===============================
-   RESET
-================================*/
+/* Reset body */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-/* ===============================
-   HEADER
-================================*/
+/* Full-width Header with Logo + Title in One Line */
 header {
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Align logo + text from left */
-  background-color: #d32f2f;
-  color: white;
-  padding: 15px 20px;
-  gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align logo + text from left */
+  background-color: #d32f2f;
+  color: white;
+  padding: 15px 20px;
+  gap: 15px;
 }
 
 .logo {
-  height: 70px;
-  width: auto;
+  height: 70px;
+  width: auto;
 }
 
+/* Style for the heading inside header */
 header h1 {
-  font-size: 24px;
-  margin: 0;
-  white-space: nowrap; /* Prevent title from wrapping */
+  font-size: 24px;
+  margin: 0;
+  white-space: nowrap; /* Prevent title from wrapping */
 }
 
-/* ===============================
-   CONTACT BAR
-================================*/
+/* Contact Bar Full Width */
 .contact-bar {
-  width: 100%;
-  background-color: #ffcdd2;
-  text-align: center;
-  padding: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  box-sizing: border-box;
+  width: 100%;
+  background-color: #ffcdd2;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  box-sizing: border-box;
 }
 
 .contact-bar a {
-  color: #b71c1c;
-  text-decoration: none;
+  color: #b71c1c;
+  text-decoration: none;
 }
 
 .contact-bar a:hover {
-  text-decoration: underline;
+  text-decoration: underline;
 }
 
-/* ===============================
-   FOOTER
-================================*/
+/* Footer Full Width */
 footer {
-  width: 100%;
-  box-sizing: border-box;
-  background-color: #d32f2f;
-  color: white;
-  text-align: center;
-  padding: 15px 10px;
-  margin-top: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #d32f2f;
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  margin-top: 40px;
 }
 
 .footer-blessing {
-  margin: 0;
-  font-size: 16px;
-}
-
-/* ===============================
-   RESPONSIVE IMPROVEMENTS
-================================*/
-@media (max-width: 600px) {
-  header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  header h1 {
-    font-size: 20px;
-  }
-
-  .logo {
-    height: 60px;
-  }
-
-  .contact-bar {
-    font-size: 16px;
-    padding: 8px;
-  }
-
-  footer {
-    font-size: 14px;
-    padding: 10px 5px;
-  }
+  margin: 0;
+  font-size: 16px;
 }
