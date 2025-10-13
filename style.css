@@ -1,11 +1,15 @@
-/* Reset body */
+/* ===============================
+   RESET
+================================*/
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
 }
 
-/* Full-width Header with Logo + Title in One Line */
+/* ===============================
+   HEADER
+================================*/
 header {
   width: 100%;
   box-sizing: border-box;
@@ -23,14 +27,15 @@ header {
   width: auto;
 }
 
-/* Style for the heading inside header */
 header h1 {
   font-size: 24px;
   margin: 0;
   white-space: nowrap; /* Prevent title from wrapping */
 }
 
-/* Contact Bar Full Width */
+/* ===============================
+   CONTACT BAR
+================================*/
 .contact-bar {
   width: 100%;
   background-color: #ffcdd2;
@@ -50,7 +55,9 @@ header h1 {
   text-decoration: underline;
 }
 
-/* Footer Full Width */
+/* ===============================
+   FOOTER
+================================*/
 footer {
   width: 100%;
   box-sizing: border-box;
@@ -64,4 +71,32 @@ footer {
 .footer-blessing {
   margin: 0;
   font-size: 16px;
+}
+
+/* ===============================
+   RESPONSIVE IMPROVEMENTS
+================================*/
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+
+  .logo {
+    height: 60px;
+  }
+
+  .contact-bar {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  footer {
+    font-size: 14px;
+    padding: 10px 5px;
+  }
 }
