@@ -33,7 +33,17 @@
       <div class="space-y-3">
         <input id="name" type="text" placeholder="Customer Name" class="w-full border rounded-lg p-2">
         <input id="number" type="tel" placeholder="WhatsApp Number (with country code, e.g. 919876543210)" class="w-full border rounded-lg p-2">
-        <textarea id="order" placeholder="Order Details" class="w-full border rounded-lg p-2"></textarea>
+
+        <!-- Order Options -->
+        <select id="orderSelect" class="w-full border rounded-lg p-2">
+          <option value="">Select Order</option>
+          <option value="Chicken Dum Biryani (Full)">Chicken Dum Biryani (Full)</option>
+          <option value="Chicken Dum Biryani (Half)">Chicken Dum Biryani (Half)</option>
+        </select>
+
+        <!-- Custom order box -->
+        <textarea id="customOrder" placeholder="Custom Order Details" class="w-full border rounded-lg p-2 hidden"></textarea>
+
         <button id="addOrder" class="w-full bg-orange-600 text-white p-2 rounded-lg hover:bg-orange-700 transition">Add Order</button>
       </div>
     </div>
@@ -65,7 +75,7 @@
 
   <script>
     // ---- PASSWORD LOGIN ----
-    const correctPassword = "biryani123"; // 🔐 Change this to your own password
+    const correctPassword = "biryani123"; // 🔐 Change this password
 
     const loginBtn = document.getElementById('loginBtn');
     const passwordInput = document.getElementById('passwordInput');
@@ -82,7 +92,6 @@
       }
     });
 
-    // Allow Enter key to submit password
     passwordInput.addEventListener('keypress', e => {
       if (e.key === 'Enter') loginBtn.click();
     });
@@ -91,11 +100,24 @@
     const addOrderBtn = document.getElementById('addOrder');
     const orderList = document.getElementById('orderList');
     const clearAllBtn = document.getElementById('clearAll');
+    const orderSelect = document.getElementById('orderSelect');
+    const customOrder = document.getElementById('customOrder');
+
+    // Show custom order box only if "custom" selected
+    orderSelect.addEventListener('change', () => {
+      if (orderSelect.value === 'custom') {
+        customOrder.classList.remove('hidden');
+      } else {
+        customOrder.classList.add('hidden');
+      }
+    });
 
     addOrderBtn.addEventListener('click', () => {
       const name = document.getElementById('name').value.trim();
       const number = document.getElementById('number').value.trim();
-      const order = document.getElementById('order').value.trim();
+      let order = orderSelect.value;
+
+      if (order === 'custom') order = customOrder.value.trim();
 
       if (!name || !number || !order) {
         alert('Please fill all fields!');
@@ -118,13 +140,15 @@
 
       orderList.appendChild(tr);
 
-      // Clear input fields
+      // Reset form
       document.getElementById('name').value = '';
       document.getElementById('number').value = '';
-      document.getElementById('order').value = '';
+      orderSelect.value = '';
+      customOrder.value = '';
+      customOrder.classList.add('hidden');
     });
 
-    // Send WhatsApp message
+    // WhatsApp message
     function sendWhatsApp(name, number, order) {
       const message = `Hello ${name}, your order for ${order} is confirmed! 🍗 Thank you for choosing Udgir Biryani Adda.`;
       const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
