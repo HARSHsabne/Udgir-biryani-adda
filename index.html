@@ -4,12 +4,12 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#d32f2f">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="style.css">
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Udgir Biryani Adda</title>
 <style>
+  /* Menu & Dishes */
   .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
   .dish { background-color: #fff3e0; border-radius: 10px; margin: 10px; padding: 15px; width: 200px; text-align: center; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); position: relative; }
   .dish img { width: 100%; border-radius: 10px; }
@@ -18,27 +18,12 @@
   .dish button { background-color: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
   .dish button:hover { background-color: #b71c1c; }
 
-  .qty-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 8px;
-  }
-
-  .qty-controls button {
-    width: 30px;
-    height: 30px;
-    font-size: 18px;
-    border-radius: 5px;
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-
+  .qty-controls { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px; }
+  .qty-controls button { width: 30px; height: 30px; font-size: 18px; border-radius: 5px; border: none; color: white; cursor: pointer; }
   .qty-minus { background-color: #d32f2f; }
   .qty-plus { background-color: #43a047; }
 
+  /* Order Form */
   .order-form { max-width: 400px; margin: 20px auto; background-color: #ffe0b2; padding: 20px; border-radius: 10px; }
   .order-form h2 { text-align: center; }
   .order-form label { display: block; margin: 10px 0 5px 0; }
@@ -46,79 +31,46 @@
   .order-form button { margin-top: 15px; width: 100%; background-color: #d32f2f; color: white; border: none; padding: 10px; border-radius: 5px; font-size: 16px; cursor: pointer; }
   .order-form button:hover { background-color: #b71c1c; }
 
-.location-btn {
-  background-color: #43a047 !important;  /* green */
-  color: white !important;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.location-btn:hover {
-  background-color: #388e3c !important;  /* darker green */
-  transform: scale(1.05);
-}
-
+  .location-btn { background-color: #43a047 !important; color: white !important; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 10px; width: 100%; transition: background-color 0.3s, transform 0.2s; }
+  .location-btn:hover { background-color: #388e3c !important; transform: scale(1.05); }
 
   .confirmation { text-align: center; color: green; font-weight: bold; margin: 20px 0; display: none; }
-/* Cart Icon Bottom Right */
-#cart-icon {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #d32f2f;
-  color: white;
-  padding: 14px 18px;
-  border-radius: 50px;
-  font-size: 20px;
-  cursor: pointer;
-  z-index: 1000;
-  display: none; /* Hidden initially */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  transition: transform 0.3s, background-color 0.3s;
-}
-#cart-icon.animate { transform: scale(1.3); }
-#cart-count {
-  background-color: #fff;
-  color: #d32f2f;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-weight: bold;
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 14px;
-  transition: all 0.3s;
-}
 
-/* Toast Notifications - centered */
-.toast {
-  visibility: hidden;
-  max-width: 300px;
-  background-color: rgba(0,0,0,0.85);
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-  padding: 12px 20px;
-  position: fixed;
-  z-index: 1001;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, 20px);
-  font-size: 16px;
-  opacity: 0;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.toast.show { visibility: visible; opacity: 1; transform: translate(-50%, 0); }
+  /* Cart Icon */
+  #cart-icon { position: fixed; bottom: 20px; right: 20px; background-color: #d32f2f; color: white; padding: 14px 18px; border-radius: 50px; font-size: 20px; cursor: pointer; z-index: 1000; display: none; box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: transform 0.3s, background-color 0.3s; }
+  #cart-icon.animate { transform: scale(1.3); }
+  #cart-count { background-color: #fff; color: #d32f2f; border-radius: 50%; padding: 2px 6px; font-weight: bold; position: absolute; top: -8px; right: -8px; font-size: 14px; transition: all 0.3s; }
 
+  /* Toast Notifications */
+  .toast { visibility: hidden; max-width: 300px; background-color: rgba(0,0,0,0.85); color: #fff; text-align: center; border-radius: 8px; padding: 12px 20px; position: fixed; z-index: 1001; left: 50%; top: 40%; transform: translate(-50%, 20px); font-size: 16px; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; }
+  .toast.show { visibility: visible; opacity: 1; transform: translate(-50%, 0); }
+
+  /* Spinner */
+  #spinner {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+  }
+  #spinner div {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #d32f2f;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+  }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
+
+<!-- Spinner -->
+<div id="spinner"><div></div></div>
+
 <!-- Floating Cart Icon -->
 <div id="cart-icon" onclick="scrollToOrderForm()">
   <i class="fas fa-shopping-cart"></i>
@@ -171,7 +123,7 @@
 
     <label for="phone">Phone Number:</label>
     <input type="tel" id="phone" pattern="[0-9]{10}" maxlength="10" minlength="10"
-       inputmode="numeric" placeholder="Enter 10-digit number" required>
+         inputmode="numeric" placeholder="Enter 10-digit number" required>
 
     <label for="address">Delivery Address:</label>
     <textarea id="address" rows="3" required></textarea>
@@ -195,19 +147,15 @@ let totalPrice = 0;
 let liveLocationLink = '';
 const yourWhatsAppNumber = "919421229507";
 
-// Handle add button -> becomes +/-
+// ADD ITEM
 function addToOrder(btn) {
   const dish = btn.closest('.dish');
   const name = dish.getAttribute('data-name');
   const price = parseInt(dish.getAttribute('data-price'));
 
   let item = orderItems.find(i => i.name === name);
-  if (!item) {
-    item = { name, price, quantity: 1 };
-    orderItems.push(item);
-  }
+  if (!item) { item = { name, price, quantity: 1 }; orderItems.push(item); }
 
-  // Replace button with quantity controls
   btn.outerHTML = `
     <div class="qty-controls">
       <button class="qty-minus" onclick="changeQty(this, '${name}', -1)">–</button>
@@ -215,144 +163,37 @@ function addToOrder(btn) {
       <button class="qty-plus" onclick="changeQty(this, '${name}', 1)">+</button>
     </div>
   `;
-
   updateOrderSummary();
+  updateCartCount();
 }
 
+// CHANGE QUANTITY
 function changeQty(el, name, change) {
   const item = orderItems.find(i => i.name === name);
   if (!item) return;
-
   item.quantity += change;
-
   if (item.quantity <= 0) {
-    // Remove from list
     orderItems = orderItems.filter(i => i.name !== name);
     const dish = [...document.querySelectorAll('.dish')].find(d => d.getAttribute('data-name') === name);
-    if (dish) {
-      const controls = dish.querySelector('.qty-controls');
-      controls.outerHTML = `<button class="add-btn" onclick="addToOrder(this)">Add to Order</button>`;
-    }
+    if (dish) dish.querySelector('.qty-controls').outerHTML = `<button class="add-btn" onclick="addToOrder(this)">Add to Order</button>`;
   } else {
     document.getElementById(`qty-${name.replace(/\s+/g, '')}`).innerText = item.quantity;
   }
-
   updateOrderSummary();
+  updateCartCount();
 }
 
+// UPDATE ORDER SUMMARY
 function updateOrderSummary() {
   const orderSummary = document.getElementById('orderSummary');
   totalPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
   let summary = '';
-  orderItems.forEach((item, index) => {
-    summary += `${index + 1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
-  });
-  summary += orderItems.length ? `\nTotal: ₹${totalPrice}` : '';
+  orderItems.forEach((item,index) => summary += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`);
+  if(orderItems.length) summary += `\nTotal: ₹${totalPrice}`;
   orderSummary.value = summary;
 }
 
-function captureLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
-        showPopup('Live location captured! You do not need to enter address manually.');
-        const addressField = document.getElementById('address');
-        addressField.value = '';
-        addressField.disabled = true;
-      },
-      () => {
-        alert('Could not get location. Please enable location services.');
-      }
-    );
-  } else {
-    alert('Geolocation is not supported by your browser.');
-  }
-}
-  
-document.getElementById('phone').addEventListener('input', function() {
-  this.value = this.value.replace(/[^0-9]/g, ''); // allow only digits
-});
-
-document.getElementById('orderForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  if(orderItems.length === 0){
-      alert('Please add at least one item to your order!');
-      return;
-  }
-
-  const customerName = document.getElementById('name').value;
-  const customerPhone = document.getElementById('phone').value;
-  if (!/^\d{10}$/.test(customerPhone)) {
-  alert('Please enter a valid 10-digit phone number.');
-  return;}
-  const customerAddress = liveLocationLink || document.getElementById('address').value;
-
-  let orderText = '';
-  orderItems.forEach((item,index)=>{
-      orderText += `${index+1}. ${item.name} ×${item.quantity} - ₹${item.price * item.quantity}\n`;
-  });
-  let totalAmount = totalPrice;
-  const upiLink = `upi://pay?pa=${upiID}&pn=UdgirBiryani&am=${totalAmount}&cu=INR`;
-
-  let message = `🛒 *New Biryani Order*\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}\n\nOrder:\n${orderText}\nTotal: ₹${totalAmount}\n\n💳 *Payment Options*:\n1. COD (Cash on Delivery)\n2. Online Payment: ${upiLink}\n*Note:* If paid online, please send a screenshot along with this message.`;
-
-  window.location.href = `https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`;
-
-  document.getElementById('confirmation').style.display = 'block';
-  orderItems = [];
-  totalPrice = 0;
-  liveLocationLink = '';
-  document.getElementById('address').disabled = false;
-  updateOrderSummary();
-  this.reset();
-
-  // Reset all dish buttons
-  document.querySelectorAll('.dish').forEach(d => {
-    const controls = d.querySelector('.qty-controls');
-    if (controls) controls.outerHTML = `<button class="add-btn" onclick="addToOrder(this)">Add to Order</button>`;
-  });
-});
-
-// PWA
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").then(
-      (reg) => console.log("Service Worker registered:", reg),
-      (err) => console.log("Service Worker failed:", err)
-    );
-  });
-}
-
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('pwa-install-popup').style.display = 'block';
-});
-
-document.getElementById('install-btn').addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    document.getElementById('pwa-install-popup').style.display = 'none';
-    deferredPrompt = null;
-  }
-});
-  function closePwaPopup() {
-  document.getElementById('pwa-install-popup').style.display = 'none';
-}
-  function showPopup(message) {
-  alert(message); // Simple popup
-}
-// Scroll to order form
-function scrollToOrderForm() {
-  document.querySelector('.order-form').scrollIntoView({ behavior: 'smooth' });
-}
-
-// Show toast notification
+// SHOW TOAST
 function showToast(message) {
   const toast = document.getElementById('toast');
   toast.innerText = message;
@@ -360,49 +201,93 @@ function showToast(message) {
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// Update cart count and visibility
+// CART ICON
 function updateCartCount() {
-  const count = orderItems.reduce((sum, item) => sum + item.quantity, 0);
+  const count = orderItems.reduce((sum,i)=>sum+i.quantity,0);
   const cart = document.getElementById('cart-icon');
   const cartCount = document.getElementById('cart-count');
-  
-  if(count > 0) {
-    cart.style.display = 'block';
-  } else {
-    cart.style.display = 'none';
-  }
-  
+  if(count>0){ cart.style.display='block'; animateCart(); } else cart.style.display='none';
   cartCount.innerText = count;
-  if(count > 0) animateCart();
 }
-
-// Animate cart icon when updated
 function animateCart() {
   const cart = document.getElementById('cart-icon');
   cart.classList.add('animate');
-  setTimeout(() => cart.classList.remove('animate'), 300);
+  setTimeout(()=>cart.classList.remove('animate'),300);
 }
 
-// Call updateCartCount() whenever orderItems changes
-// Example: inside addToOrder() and changeQty() functions:
-updateCartCount();
+// SCROLL TO ORDER FORM
+function scrollToOrderForm() { document.querySelector('.order-form').scrollIntoView({behavior:'smooth'}); }
+
+// CAPTURE LOCATION WITH SPINNER
+function captureLocation() {
+  if(!navigator.geolocation){ showToast('⚠️ Geolocation not supported.'); return; }
+  document.getElementById('spinner').style.display='flex';
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      const lat=pos.coords.latitude;
+      const lon=pos.coords.longitude;
+      liveLocationLink=`https://www.google.com/maps?q=${lat},${lon}`;
+      document.getElementById('address').value='';
+      document.getElementById('address').disabled=true;
+      document.getElementById('spinner').style.display='none';
+      showToast('📍 Live location captured!');
+    },
+    err=>{
+      showToast('⚠️ Could not get location. Enable location services.');
+      document.getElementById('spinner').style.display='none';
+    }
+  );
+}
+
+// ORDER SUBMISSION
+document.getElementById('orderForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  if(orderItems.length===0){ showToast('⚠️ Add at least one item!'); return; }
+  const name=document.getElementById('name').value;
+  const phone=document.getElementById('phone').value;
+  if(!/^\d{10}$/.test(phone)){ showToast('⚠️ Enter valid 10-digit phone!'); return; }
+  const address=liveLocationLink || document.getElementById('address').value;
+
+  document.getElementById('spinner').style.display='flex';
+
+  let orderText='';
+  orderItems.forEach((item,index)=>{ orderText+=`${index+1}. ${item.name} ×${item.quantity} - ₹${item.price*item.quantity}\n`; });
+  const upiLink=`upi://pay?pa=${upiID}&pn=UdgirBiryani&am=${totalPrice}&cu=INR`;
+  const message=`🛒 *New Biryani Order*\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nOrder:\n${orderText}\nTotal: ₹${totalPrice}\n\n💳 Payment Options:\n1. COD\n2. Online: ${upiLink}\n*Send screenshot if paid online*`;
+
+  setTimeout(()=>{
+    window.location.href=`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+    document.getElementById('confirmation').style.display='block';
+    document.getElementById('spinner').style.display='none';
+    orderItems=[]; totalPrice=0; liveLocationLink='';
+    document.getElementById('address').disabled=false;
+    document.getElementById('orderForm').reset();
+    document.querySelectorAll('.dish').forEach(d=>{
+      const controls=d.querySelector('.qty-controls'); 
+      if(controls) controls.outerHTML=`<button class="add-btn" onclick="addToOrder(this)">Add to Order</button>`;
+    });
+    updateOrderSummary();
+    updateCartCount();
+    showToast('✅ Order sent! We will contact you shortly.');
+  },500);
+});
+
+// PWA
+if("serviceWorker"in navigator){ window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").then(reg=>console.log("SW registered",reg),err=>console.log("SW failed",err)); }); }
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('pwa-install-popup').style.display='block'; });
+document.getElementById('install-btn').addEventListener('click',async()=>{
+  if(deferredPrompt){ deferredPrompt.prompt(); const {outcome}=await deferredPrompt.userChoice; document.getElementById('pwa-install-popup').style.display='none'; deferredPrompt=null; }
+});
+function closePwaPopup(){ document.getElementById('pwa-install-popup').style.display='none'; }
 
 </script>
 
 <div class="contact-section" style="text-align:center; margin:30px 0;">
   <h3>📲 Connect with Us</h3>
-  <a href="https://www.instagram.com/udgirbiryaniadda?igsh=ZDAyZzhkeDR1cXFn" target="_blank" 
-     style="display:inline-block; margin:10px; font-size:22px; color:#E4405F; text-decoration:none;">
-    <i class="fab fa-instagram"></i>
-  </a>
-  <a href="mailto:udgirbiryaniadda@gmail.com" 
-     style="display:inline-block; margin:10px; font-size:22px; color:#D44638; text-decoration:none;">
-    <i class="fas fa-envelope"></i>
-  </a>
-  <a href="https://wa.me/919421229507" target="_blank" 
-     style="display:inline-block; margin:10px; font-size:22px; color:#25D366; text-decoration:none;">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+  <a href="https://www.instagram.com/udgirbiryaniadda" target="_blank" style="display:inline-block; margin:10px; font-size:22px; color:#E4405F; text-decoration:none;"><i class="fab fa-instagram"></i></a>
+  <a href="mailto:udgirbiryaniadda@gmail.com" style="display:inline-block; margin:10px; font-size:22px; color:#D44638; text-decoration:none;"><i class="fas fa-envelope"></i></a>
+  <a href="https://wa.me/919421229507" target="_blank" style="display:inline-block; margin:10px; font-size:22px; color:#25D366; text-decoration:none;"><i class="fab fa-whatsapp"></i></a>
 </div>
 
 <footer>
