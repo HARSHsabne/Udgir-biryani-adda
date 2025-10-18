@@ -111,7 +111,8 @@
     <input type="text" id="name" required>
 
     <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" required>
+    <input type="tel" id="phone" pattern="[0-9]{10}" maxlength="10" minlength="10"
+       inputmode="numeric" placeholder="Enter 10-digit number" required>
 
     <label for="address">Delivery Address:</label>
     <textarea id="address" rows="3" required></textarea>
@@ -198,7 +199,7 @@ function captureLocation() {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         liveLocationLink = `https://www.google.com/maps?q=${lat},${lon}`;
-        alert('Live location captured! You do not need to enter address manually.');
+        showPopup('Live location captured! You do not need to enter address manually.');
         const addressField = document.getElementById('address');
         addressField.value = '';
         addressField.disabled = true;
@@ -211,6 +212,10 @@ function captureLocation() {
     alert('Geolocation is not supported by your browser.');
   }
 }
+  
+document.getElementById('phone').addEventListener('input', function() {
+  this.value = this.value.replace(/[^0-9]/g, ''); // allow only digits
+});
 
 document.getElementById('orderForm').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -221,6 +226,9 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
 
   const customerName = document.getElementById('name').value;
   const customerPhone = document.getElementById('phone').value;
+  if (!/^\d{10}$/.test(customerPhone)) {
+  alert('Please enter a valid 10-digit phone number.');
+  return;}
   const customerAddress = liveLocationLink || document.getElementById('address').value;
 
   let orderText = '';
@@ -232,7 +240,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
 
   let message = `🛒 *New Biryani Order*\n\nName: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}\n\nOrder:\n${orderText}\nTotal: ₹${totalAmount}\n\n💳 *Payment Options*:\n1. COD (Cash on Delivery)\n2. Online Payment: ${upiLink}\n*Note:* If paid online, please send a screenshot along with this message.`;
 
-  window.open(`https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
+  window.location.href = `https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(message)}`;
 
   document.getElementById('confirmation').style.display = 'block';
   orderItems = [];
