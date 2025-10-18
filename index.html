@@ -284,9 +284,13 @@ document.getElementById('install-btn').addEventListener('click', async () => {
     deferredPrompt = null;
   }
 });
-function closePwaPopup() {
+  function closePwaPopup() {
   document.getElementById('pwa-install-popup').style.display = 'none';
 }
+  function showPopup(message) {
+  alert(message); // Simple popup
+}
+
 </script>
 
 <div class="contact-section" style="text-align:center; margin:30px 0;">
