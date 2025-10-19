@@ -273,16 +273,53 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   },500);
 });
 
-// PWA
-if("serviceWorker"in navigator){ window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").then(reg=>console.log("SW registered",reg),err=>console.log("SW failed",err)); }); }
+// ✅ Register Service Worker
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js")
+      .then(reg => console.log("✅ SW registered", reg))
+      .catch(err => console.log("❌ SW registration failed:", err));
+  });
+}
+
+// ✅ Handle Install Prompt
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('pwa-install-popup').style.display='block'; });
-document.getElementById('install-btn').addEventListener('click',async()=>{
-  if(deferredPrompt){ deferredPrompt.prompt(); const {outcome}=await deferredPrompt.userChoice; document.getElementById('pwa-install-popup').style.display='none'; deferredPrompt=null; }
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  console.log("✅ beforeinstallprompt fired");
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // Show popup after slight delay
+  setTimeout(() => {
+    const popup = document.getElementById("pwa-install-popup");
+    if (popup) popup.style.display = "block";
+  }, 1000);
 });
 
-function closePwaPopup(){ document.getElementById('pwa-install-popup').style.display='none'; }
+document.getElementById("install-btn").addEventListener("click", async () => {
+  if (!deferredPrompt) {
+    showToast("⚠️ Install prompt not available yet.");
+    return;
+  }
 
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log(`User install choice: ${outcome}`);
+
+  if (outcome === "accepted") {
+    showToast("✅ App installation started!");
+  } else {
+    showToast("ℹ️ You cancelled installation.");
+  }
+
+  document.getElementById("pwa-install-popup").style.display = "none";
+  deferredPrompt = null;
+});
+
+function closePwaPopup() {
+  document.getElementById("pwa-install-popup").style.display = "none";
+}
 </script>
 
 <div class="contact-section" style="text-align:center; margin:30px 0;">
