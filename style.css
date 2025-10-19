@@ -65,3 +65,61 @@ footer {
   margin: 0;
   font-size: 16px;
 }
+
+/* Wrapper for page load animation */
+.page-animate body {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: pageEnter 1s ease-out forwards;
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo pop-in effect */
+.page-animate header img.logo {
+  opacity: 0;
+  transform: scale(0.8);
+  animation: logoPop 1s ease-out 0.3s forwards;
+}
+
+@keyframes logoPop {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Title fade-in */
+.page-animate header h1 {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: titleFade 1s ease-out 0.6s forwards;
+}
+
+@keyframes titleFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Menu fade-in */
+.page-animate .menu {
+  opacity: 0;
+  animation: fadeIn 1.2s ease-out 1s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Order form slide-up */
+.page-animate .order-form {
+  opacity: 0;
+  animation: formSlide 1s ease-out 1.5s forwards;
+}
+
+@keyframes formSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
