@@ -1,60 +1,41 @@
-const CACHE_NAME = "biryaniadda-v3";
-const ASSETS = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/manifest.json",
-  "/logo.png",
-  "/biryani.jpg",
-  "/biryani_half.jpg",
-  "/icon-192.png",
-  "/icon-512.png"
+const CACHE_NAME = 'udgir-biryani-v16'; // Increment the version when updating
+
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/style.css',
+  '/script.js', // if you have a separate JS
+  '/logo.png',
+  '/biryani.jpg',
+  '/cold_drink.jpg',
+  '/Mutton-Biryani.jpg'
 ];
 
-// Install event — caches essential assets
-self.addEventListener("install", (event) => {
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
   );
-  self.skipWaiting();
 });
 
-// Activate event — clears old caches automatically
-self.addEventListener("activate", (event) => {
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((key) => {
-        if (key !== CACHE_NAME) return caches.delete(key);
-      }))
+    caches.keys().then(cacheNames => 
+      Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache); // Delete old caches
+          }
+        })
+      )
     )
   );
-  self.clients.claim();
 });
 
-// Fetch event — serve from cache first, then network fallback
-self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
-
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse;
-
-      return fetch(event.request)
-        .then((networkResponse) => {
-          // Cache new assets for offline use
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, networkResponse.clone());
-            return networkResponse;
-          });
-        })
-        .catch(() => caches.match("/index.html"));
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
     })
   );
-});
-
-// Auto-refresh when new SW is available
-self.addEventListener("message", (event) => {
-  if (event.data === "skipWaiting") self.skipWaiting();
 });
