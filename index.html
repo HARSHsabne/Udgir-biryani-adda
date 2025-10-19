@@ -274,12 +274,26 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
 });
 
 // PWA
-if("serviceWorker"in navigator){ window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").then(reg=>console.log("SW registered",reg),err=>console.log("SW failed",err)); }); }
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('pwa-install-popup').style.display='block'; });
-document.getElementById('install-btn').addEventListener('click',async()=>{
-  if(deferredPrompt){ deferredPrompt.prompt(); const {outcome}=await deferredPrompt.userChoice; document.getElementById('pwa-install-popup').style.display='none'; deferredPrompt=null; }
-});
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").then((reg) => {
+      console.log("✅ Service Worker registered:", reg);
+
+      // Listen for updates
+      reg.onupdatefound = () => {
+        const newWorker = reg.installing;
+        newWorker.onstatechange = () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            if (confirm("New version available! Refresh now?")) {
+              newWorker.postMessage("skipWaiting");
+              window.location.reload();
+            }
+          }
+        };
+      };
+    }).catch((err) => console.log("❌ SW registration failed:", err));
+  });
+}
 function closePwaPopup(){ document.getElementById('pwa-install-popup').style.display='none'; }
 
 </script>
